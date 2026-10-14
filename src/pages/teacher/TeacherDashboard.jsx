@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { animate } from 'animejs'
 import { BarChart3, CircleCheckBig, GraduationCap, Trophy, UserPlus, Users } from 'lucide-react'
@@ -6,7 +6,9 @@ import { courses, getCourse } from '../../data/courses'
 import { getProgram, programs } from '../../data/students'
 import { matrixRows, top_scorers } from '../../data/matrix'
 import { useAdmin } from '../../context/AdminContext'
-import CompletionCharts from '../../components/teacher/CompletionCharts'
+// Recharts is most of the bundle, and only this tab uses it. lazy() puts it in its own file that
+// downloads the first time the tab opens, so every other screen loads faster.
+const CompletionCharts = lazy(() => import('../../components/teacher/CompletionCharts'))
 
 // Each tab owns its header copy and body. The dashboard renders the header the same way for all three.
 const tabs = [
@@ -40,14 +42,14 @@ export default function TeacherDashboard() {
       <h1 className="text-3xl font-extrabold text-primary">Admin Dashboard</h1>
       <p className="mt-1 text-muted">Detailed Enrollment Statistics</p>
 
-      <ul className="mt-6 grid gap-5 sm:grid-cols-3">
+      <ul className="mt-6 grid gap-3 sm:grid-cols-3 sm:gap-5">
         {stats.map((s) => (
-          <li key={s.label} className="rounded-card bg-primary p-6 text-white shadow-card">
+          <li key={s.label} className="rounded-card bg-primary p-5 text-white shadow-card sm:p-6">
             <div className="flex items-start justify-between gap-3">
               <p className="text-sm font-semibold">{s.label}</p>
               <s.icon className="size-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
             </div>
-            <p className="mt-3 text-[40px] leading-none font-extrabold tabular-nums">
+            <p className="mt-2 text-[32px] leading-none font-extrabold tabular-nums sm:mt-3 sm:text-[40px]">
               <CountUp value={s.value} />
             </p>
             <p className="mt-2 text-sm text-white/80">{s.caption}</p>
@@ -55,7 +57,7 @@ export default function TeacherDashboard() {
         ))}
       </ul>
 
-      <div role="tablist" aria-label="Dashboard views" onKeyDown={onKeyDown} className="mt-8 flex max-w-full gap-1 overflow-x-auto rounded-card border border-line bg-surface p-1.5">
+      <div role="tablist" aria-label="Dashboard views" onKeyDown={onKeyDown} className="mt-8 grid gap-1 rounded-card border border-line bg-surface p-1.5 sm:flex">
         {tabs.map((t) => {
           const on = t.id === tab
           return (
@@ -68,7 +70,7 @@ export default function TeacherDashboard() {
               aria-controls={`panel-${t.id}`}
               tabIndex={on ? 0 : -1}
               onClick={() => setTab(t.id)}
-              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-colors duration-150 ${on ? 'text-white' : 'text-ink hover-fine:text-primary'}`}
+              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-white' : 'text-ink hover-fine:text-primary'}`}
             >
               {/* One shared layoutId: Motion slides this pill from the old tab to the new one. */}
               {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-primary" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
@@ -97,7 +99,9 @@ export default function TeacherDashboard() {
             <p className="text-sm text-muted">{current.subtitle}</p>
           </div>
         </header>
-        <current.Body />
+        <Suspense fallback={<div className="card h-[420px] animate-pulse bg-wash motion-reduce:animate-none" aria-label="Loading charts" />}>
+          <current.Body />
+        </Suspense>
       </motion.section>
     </div>
   )
@@ -143,7 +147,8 @@ function ProgressMatrix() {
       <table className="w-full min-w-[860px] text-sm">
         <thead className="bg-wash">
           <tr>
-            <th scope="col" className="px-5 py-4 text-left font-extrabold text-ink">Course Name</th>
+            {/* Course column stays put while the program columns scroll sideways on narrow screens. */}
+            <th scope="col" className="sticky left-0 z-10 bg-wash px-5 py-4 text-left font-extrabold text-ink">Course Name</th>
             {programs.map((p) => (
               <th key={p.id} scope="col" className="px-3 py-4 text-center font-extrabold text-ink">
                 {p.code}
@@ -162,8 +167,8 @@ function ProgressMatrix() {
             </tr>
           ) : (
             rows.map(({ course, cells, total }) => (
-              <tr key={course.id} className="transition-colors duration-150 hover-fine:bg-mint-50">
-                <th scope="row" className="px-5 py-3.5 text-left font-semibold text-ink">{course.title}</th>
+              <tr key={course.id} className="bg-surface transition-colors duration-150 hover-fine:bg-mint-50">
+                <th scope="row" className="sticky left-0 z-10 bg-inherit px-5 py-3.5 text-left font-semibold text-ink max-sm:min-w-40">{course.title}</th>
                 {cells.map((n, i) => (
                   <td key={programs[i].id} className="px-3 py-3.5 text-center">
                     {n ? (

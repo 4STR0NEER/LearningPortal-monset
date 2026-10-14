@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router'
 import { motion } from 'motion/react'
 import { useRole } from '../../context/RoleContext'
@@ -47,7 +47,7 @@ export default function AppShell() {
       <aside
         inert={!drawerOpen}
         aria-label="Main menu"
-        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] border-r border-line bg-page shadow-pop transition-transform duration-300 ease-drawer motion-reduce:transition-none lg:hidden ${drawerOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] border-r border-line bg-page transition-[transform,box-shadow] duration-300 ease-drawer motion-reduce:transition-none lg:hidden ${drawerOpen ? 'translate-x-0 shadow-pop' : '-translate-x-full'}`}
       >
         <Sidebar onClose={() => setDrawerOpen(false)} />
       </aside>
@@ -62,7 +62,10 @@ export default function AppShell() {
             animate={{ opacity: 1, transform: 'translateY(0px)' }}
             transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
           >
-            <Outlet />
+            {/* Lazy teacher pages: the shell stays up while a page's code downloads. */}
+            <Suspense fallback={null}>
+              <Outlet />
+            </Suspense>
           </motion.div>
         </main>
       </div>

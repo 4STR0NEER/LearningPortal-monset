@@ -154,7 +154,7 @@ function CourseGroup({ item, pathname, collapsed, onExpand }) {
         {!collapsed && (
           <>
             <span className="flex-1 truncate text-left">{item.label}</span>
-            <ChevronRight className={`size-4 shrink-0 transition-transform duration-200 ease-out ${open ? 'rotate-90' : ''}`} aria-hidden="true" />
+            <ChevronRight className={`size-4 shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none ${open ? 'rotate-90' : ''}`} aria-hidden="true" />
           </>
         )}
       </button>

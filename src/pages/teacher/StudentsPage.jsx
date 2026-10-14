@@ -39,7 +39,26 @@ export default function StudentsPage() {
         </label>
       </div>
 
-      <div className="card mt-5 overflow-x-auto">
+      <ul className="card mt-5 divide-y divide-line md:hidden">
+        {rows.length === 0 ? (
+          <li className="px-5 py-14 text-center text-muted">No students match your search.</li>
+        ) : (
+          rows.map((s) => (
+            <li key={s.id} className="flex items-start justify-between gap-3 p-4">
+              <div className="min-w-0">
+                <p className="font-bold text-ink">{s.full_name}</p>
+                <p className="truncate text-xs text-muted">{s.email}</p>
+                <p className="mt-1.5 text-xs text-muted tabular-nums">
+                  {s.student_no} · {YEAR[s.year_level - 1]} year
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-mint-200 px-2.5 py-0.5 text-xs font-bold text-primary-700">{getProgram(s.program_id).code}</span>
+            </li>
+          ))
+        )}
+      </ul>
+
+      <div className="card mt-5 hidden overflow-x-auto md:block">
         <table className="w-full min-w-[720px] text-sm">
           <thead className="bg-wash text-left">
             <tr>

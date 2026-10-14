@@ -55,7 +55,14 @@ export default function CompletionCharts() {
             <XAxis type="number" allowDecimals={false} tick={axisTick} axisLine={false} tickLine={false} />
             <YAxis type="category" dataKey="name" width={170} tick={axisTick} axisLine={false} tickLine={false} />
             <Tooltip {...tooltip} />
-            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 13, color: 'var(--color-muted)' }} />
+            {/* Series order (not alphabetical), and labels in muted grey: ochre/mint text would fail contrast. */}
+            <Legend
+              iconType="circle"
+              iconSize={8}
+              itemSorter={null}
+              wrapperStyle={{ fontSize: 13 }}
+              formatter={(label) => <span style={{ color: 'var(--color-muted)' }}>{label}</span>}
+            />
             {series.map((s) => (
               <Bar key={s.key} dataKey={s.key} name={s.label} stackId="mastery" fill={s.color} barSize={18} {...anim} />
             ))}

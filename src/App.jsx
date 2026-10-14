@@ -1,15 +1,17 @@
-import { useCallback, useState } from 'react'
+import { lazy, useCallback, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import AppShell from './components/layout/AppShell'
 import LoadingScreen from './components/LoadingScreen'
 import StudentDashboard from './pages/student/StudentDashboard'
 import CoursePage from './pages/student/CoursePage'
 import ProfilePage from './pages/student/ProfilePage'
-import TeacherDashboard from './pages/teacher/TeacherDashboard'
-import ApplicantsPage from './pages/teacher/ApplicantsPage'
-import StudentsPage from './pages/teacher/StudentsPage'
-import TeacherCoursePage from './pages/teacher/TeacherCoursePage'
-import ReportsPage from './pages/teacher/ReportsPage'
+
+// Teacher pages load on demand: a student session never downloads them, and the first screen arrives sooner.
+const TeacherDashboard = lazy(() => import('./pages/teacher/TeacherDashboard'))
+const ApplicantsPage = lazy(() => import('./pages/teacher/ApplicantsPage'))
+const StudentsPage = lazy(() => import('./pages/teacher/StudentsPage'))
+const TeacherCoursePage = lazy(() => import('./pages/teacher/TeacherCoursePage'))
+const ReportsPage = lazy(() => import('./pages/teacher/ReportsPage'))
 import { useRole } from './context/RoleContext'
 
 export default function App() {

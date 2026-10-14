@@ -26,6 +26,8 @@ export default function ApplicantsPage() {
     .filter((a) => !q || a.full_name.toLowerCase().includes(q) || a.email.includes(q) || getProgram(a.program_id).code.toLowerCase().includes(q))
     .sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || b.applied_at.localeCompare(a.applied_at))
 
+  const emptyText = q ? `No applicants match "${query.trim()}".` : `No ${status === 'all' ? '' : status} applicants.`
+
   const onDecide = (a, verdict) => {
     decide(a.id, verdict)
     toast(verdict === 'approved' ? `${a.full_name} approved and enrolled` : `${a.full_name} declined`)
@@ -51,7 +53,30 @@ export default function ApplicantsPage() {
         </label>
       </div>
 
-      <div className="card mt-5 overflow-x-auto">
+      {/* Phones: one card per applicant, so Approve / Decline are always on screen (a wide table hides them off to the right). */}
+      <ul className="card mt-5 divide-y divide-line md:hidden">
+        {rows.length === 0 ? (
+          <li className="px-5 py-14 text-center text-muted">{emptyText}</li>
+        ) : (
+          rows.map((a) => (
+            <li key={a.id} className="p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-bold text-ink">{a.full_name}</p>
+                  <p className="truncate text-xs text-muted">{a.email}</p>
+                </div>
+                <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ${statusPill[a.status]}`}>{a.status}</span>
+              </div>
+              <p className="mt-2 text-sm text-muted">
+                <span className="font-semibold text-ink">{getProgram(a.program_id).code}</span> · Applied {formatDate(a.applied_at)}
+              </p>
+              {a.status === 'pending' && <Actions applicant={a} onDecide={onDecide} className="mt-3 [&>button]:h-11 [&>button]:flex-1 [&>button]:justify-center" />}
+            </li>
+          ))
+        )}
+      </ul>
+
+      <div className="card mt-5 hidden overflow-x-auto md:block">
         <table className="w-full min-w-[760px] text-sm">
           <thead className="bg-wash text-left">
             <tr>
@@ -68,7 +93,7 @@ export default function ApplicantsPage() {
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-5 py-14 text-center text-muted">
-                  {q ? `No applicants match "${query.trim()}".` : `No ${status === 'all' ? '' : status} applicants.`}
+                  {emptyText}
                 </td>
               </tr>
             ) : (
@@ -84,22 +109,7 @@ export default function ApplicantsPage() {
                     <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ${statusPill[a.status]}`}>{a.status}</span>
                   </td>
                   <td className="px-5 py-3">
-                    {a.status === 'pending' && (
-                      <div className="flex justify-end gap-2">
-                        <button
-                          onClick={() => onDecide(a, 'approved')}
-                          className="pressable inline-flex items-center gap-1.5 rounded-pill bg-primary px-3.5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
-                        >
-                          <Check className="size-4" strokeWidth={2.5} aria-hidden="true" /> Approve
-                        </button>
-                        <button
-                          onClick={() => onDecide(a, 'declined')}
-                          className="pressable inline-flex items-center gap-1.5 rounded-pill border border-line px-3.5 py-2 text-sm font-bold text-muted transition-colors duration-150 hover:border-mint hover:bg-wash hover:text-ink"
-                        >
-                          <X className="size-4" strokeWidth={2.5} aria-hidden="true" /> Decline
-                        </button>
-                      </div>
-                    )}
+                    {a.status === 'pending' && <Actions applicant={a} onDecide={onDecide} />}
                   </td>
                 </tr>
               ))
@@ -110,6 +120,25 @@ export default function ApplicantsPage() {
       <p className="mt-3 text-xs text-muted">
         Showing {rows.length} of {applicants.length} applicants
       </p>
+    </div>
+  )
+}
+
+function Actions({ applicant, onDecide, className = 'justify-end' }) {
+  return (
+    <div className={`flex gap-2 ${className}`}>
+      <button
+        onClick={() => onDecide(applicant, 'approved')}
+        className="pressable inline-flex items-center gap-1.5 rounded-pill bg-primary px-3.5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
+      >
+        <Check className="size-4" strokeWidth={2.5} aria-hidden="true" /> Approve
+      </button>
+      <button
+        onClick={() => onDecide(applicant, 'declined')}
+        className="pressable inline-flex items-center gap-1.5 rounded-pill border border-line px-3.5 py-2 text-sm font-bold text-muted transition-colors duration-150 hover:border-mint hover:bg-wash hover:text-ink"
+      >
+        <X className="size-4" strokeWidth={2.5} aria-hidden="true" /> Decline
+      </button>
     </div>
   )
 }
