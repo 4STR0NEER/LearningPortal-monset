@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router'
 import { MotionConfig } from 'motion/react'
 import { RoleProvider } from './context/RoleContext'
 import { ProgressProvider } from './context/ProgressContext'
+import { AdminProvider } from './context/AdminContext'
+import { ToastProvider } from './components/Toast'
 import App from './App'
 import './index.css'
 
@@ -14,7 +16,11 @@ createRoot(document.getElementById('root')).render(
       <MotionConfig reducedMotion="user">
         <RoleProvider>
           <ProgressProvider>
-            <App />
+            <AdminProvider>
+              <ToastProvider>
+                <App />
+              </ToastProvider>
+            </AdminProvider>
           </ProgressProvider>
         </RoleProvider>
       </MotionConfig>

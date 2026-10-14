@@ -1,18 +1,9 @@
 // Teacher dashboard aggregates. In Supabase these would be SQL views (or RPCs) over
 // enrollments / material_progress / quiz_attempts, so rows here are already denormalized
 // the way a view returns them. Swap each export for a `select * from <view>`.
+// Headcounts and the pending count are not here: they change live, so AdminContext counts them.
 import { courses } from './courses.js'
 import { programs } from './students.js'
-
-// View: program_enrollment_counts
-export const program_enrollment = [
-  { program_id: 'btled-afa', enrolled: 9 },
-  { program_id: 'btled-het', enrolled: 46 },
-  { program_id: 'btled-iat', enrolled: 14 },
-  { program_id: 'btled-ict', enrolled: 7 },
-  { program_id: 'btvted', enrolled: 94 },
-  { program_id: 'unit-earner', enrolled: 6 },
-]
 
 // View: course_progress_matrix. One row per (course, program) with active students; zero cells are simply absent.
 export const course_progress_matrix = [
@@ -53,11 +44,6 @@ export const top_scorers = [
   { rank: 7, student_name: 'Jerome Garcia', initials: 'JG', program_id: 'unit-earner', course_id: 'agri-fishery', score_pct: 84 },
   { rank: 8, student_name: 'Patricia Lim', initials: 'PL', program_id: 'btvted', course_id: 'industrial-arts', score_pct: 81 },
 ]
-
-// Replaced by a count over applicants.js in Phase 5, when Approve / Decline can change it.
-export const PENDING_APPLICANTS = 73
-
-export const totalStudents = program_enrollment.reduce((sum, p) => sum + p.enrolled, 0)
 
 // Pivot the matrix view into table rows: one per course (alphabetical, like the reference), a cell per program.
 export function matrixRows() {

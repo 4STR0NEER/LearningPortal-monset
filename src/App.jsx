@@ -2,11 +2,14 @@ import { useCallback, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import AppShell from './components/layout/AppShell'
 import LoadingScreen from './components/LoadingScreen'
-import Placeholder from './pages/Placeholder'
 import StudentDashboard from './pages/student/StudentDashboard'
 import CoursePage from './pages/student/CoursePage'
 import ProfilePage from './pages/student/ProfilePage'
 import TeacherDashboard from './pages/teacher/TeacherDashboard'
+import ApplicantsPage from './pages/teacher/ApplicantsPage'
+import StudentsPage from './pages/teacher/StudentsPage'
+import TeacherCoursePage from './pages/teacher/TeacherCoursePage'
+import ReportsPage from './pages/teacher/ReportsPage'
 import { useRole } from './context/RoleContext'
 
 export default function App() {
@@ -28,10 +31,10 @@ export default function App() {
             </Route>
             <Route path="teacher">
               <Route index element={<TeacherDashboard />} />
-              <Route path="applicants" element={<Placeholder title="Applicants" phase={5} />} />
-              <Route path="students" element={<Placeholder title="Students Enrolled" phase={5} />} />
-              <Route path="courses/:courseId" element={<Placeholder title="Course" phase={5} />} />
-              <Route path="reports" element={<Placeholder title="Reports" phase={5} />} />
+              <Route path="applicants" element={<ApplicantsPage />} />
+              <Route path="students" element={<StudentsPage />} />
+              <Route path="courses/:courseId" element={<TeacherCoursePage />} />
+              <Route path="reports" element={<ReportsPage />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to={`/${role}`} replace />} />

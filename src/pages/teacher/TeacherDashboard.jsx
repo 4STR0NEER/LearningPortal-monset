@@ -4,14 +4,9 @@ import { animate } from 'animejs'
 import { BarChart3, CircleCheckBig, GraduationCap, Trophy, UserPlus, Users } from 'lucide-react'
 import { courses, getCourse } from '../../data/courses'
 import { getProgram, programs } from '../../data/students'
-import { PENDING_APPLICANTS, matrixRows, program_enrollment, top_scorers, totalStudents } from '../../data/matrix'
+import { matrixRows, top_scorers } from '../../data/matrix'
+import { useAdmin } from '../../context/AdminContext'
 import CompletionCharts from '../../components/teacher/CompletionCharts'
-
-const stats = [
-  { label: 'Total Students', value: totalStudents, caption: 'Confirmed Enrollees', icon: Users },
-  { label: 'Pending Applicants', value: PENDING_APPLICANTS, caption: 'Awaiting Review', icon: UserPlus },
-  { label: 'Total Courses', value: courses.length, caption: 'Active Courses', icon: GraduationCap },
-]
 
 // Each tab owns its header copy and body. The dashboard renders the header the same way for all three.
 const tabs = [
@@ -24,6 +19,12 @@ export default function TeacherDashboard() {
   const [tab, setTab] = useState(tabs[0].id)
   const tabRefs = useRef({})
   const current = tabs.find((t) => t.id === tab)
+  const { students, pendingCount } = useAdmin()
+  const stats = [
+    { label: 'Total Students', value: students.length, caption: 'Confirmed Enrollees', icon: Users },
+    { label: 'Pending Applicants', value: pendingCount, caption: 'Awaiting Review', icon: UserPlus },
+    { label: 'Total Courses', value: courses.length, caption: 'Active Courses', icon: GraduationCap },
+  ]
 
   // Arrow keys move between tabs (the WAI-ARIA tabs pattern): one Tab stop for the whole group.
   const onKeyDown = (e) => {
@@ -103,7 +104,7 @@ export default function TeacherDashboard() {
 }
 
 // Counts from whatever is on screen to `value` with anime.js. Starts from the current number,
-// so when Phase 5 changes the pending count it ticks from 73 to 72 instead of restarting at 0.
+// so after an approval the pending count ticks 73 -> 72 instead of restarting at 0.
 function CountUp({ value }) {
   const ref = useRef(null)
   useLayoutEffect(() => {
@@ -135,7 +136,7 @@ function CountUp({ value }) {
 function ProgressMatrix() {
   const rows = matrixRows()
   const empty = rows.every((r) => r.total === 0)
-  const enrolled = (programId) => program_enrollment.find((p) => p.program_id === programId)?.enrolled ?? 0
+  const { enrolledIn } = useAdmin()
 
   return (
     <div className="card overflow-x-auto">
@@ -146,7 +147,7 @@ function ProgressMatrix() {
             {programs.map((p) => (
               <th key={p.id} scope="col" className="px-3 py-4 text-center font-extrabold text-ink">
                 {p.code}
-                <span className="block text-xs font-normal text-muted">({enrolled(p.id)} enrolled)</span>
+                <span className="block text-xs font-normal text-muted">({enrolledIn(p.id)} enrolled)</span>
               </th>
             ))}
             <th scope="col" className="bg-mint-100 px-5 py-4 text-center font-extrabold text-primary">Total</th>
