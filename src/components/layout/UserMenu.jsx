@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { AnimatePresence, motion } from 'motion/react'
 import { User } from 'lucide-react'
 import { useRole } from '../../context/RoleContext'
 import RoleToggle from './RoleToggle'
+import { useDismiss } from '../../lib/useDismiss'
 
 // One menu, two triggers: the top-bar avatar (opens down) and the sidebar kebab (opens up).
 // `trigger` is a render function so each place keeps its own button look.
@@ -12,17 +13,8 @@ export default function UserMenu({ trigger, placement = 'down', align = 'right' 
   const [open, setOpen] = useState(false)
   const root = useRef(null)
 
-  useEffect(() => {
-    if (!open) return
-    const onDown = (e) => !root.current?.contains(e.target) && setOpen(false)
-    const onKey = (e) => e.key === 'Escape' && setOpen(false)
-    document.addEventListener('pointerdown', onDown)
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('pointerdown', onDown)
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [open])
+  const close = useCallback(() => setOpen(false), [])
+  useDismiss(root, open, close)
 
   const up = placement === 'up'
 

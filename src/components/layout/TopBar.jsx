@@ -3,6 +3,7 @@ import { useRole } from '../../context/RoleContext'
 import Avatar from './Avatar'
 import RoleToggle from './RoleToggle'
 import UserMenu from './UserMenu'
+import NotificationBell from './NotificationBell'
 
 export default function TopBar({ onToggleSidebar, drawerOpen }) {
   const { user } = useRole()
@@ -20,6 +21,7 @@ export default function TopBar({ onToggleSidebar, drawerOpen }) {
 
       <div className="ml-auto flex items-center gap-3">
         <RoleToggle />
+        <NotificationBell />
         <UserMenu
           trigger={({ open, toggle }) => (
             <button onClick={toggle} aria-haspopup="menu" aria-expanded={open} aria-label={`Account menu for ${user.full_name}`} className="pressable rounded-full">

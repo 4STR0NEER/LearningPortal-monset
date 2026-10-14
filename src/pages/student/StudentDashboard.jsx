@@ -27,9 +27,7 @@ export default function StudentDashboard() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-[18px] bg-linear-to-r from-navy to-primary px-6 max-sm:to-primary-700 py-9 text-white shadow-card sm:px-10 sm:py-12">
-        {/* Soft sky highlight, like sun on water. (A yellow glow mixes with the blue into olive.) Kept clear of the text on phones. */}
-        <div className="pointer-events-none absolute -top-24 right-[8%] size-72 rounded-full bg-sky-200/25 blur-3xl max-sm:-top-44 max-sm:-right-32" aria-hidden="true" />
+      <section className="relative overflow-hidden rounded-[18px] bg-navy px-6 py-9 text-white shadow-card sm:px-10 sm:py-12">
         <h1 className="relative text-3xl font-extrabold tracking-tight text-balance sm:text-4xl lg:text-[44px] lg:leading-[1.1]">
           Welcome back, {user.first_name}!
         </h1>
