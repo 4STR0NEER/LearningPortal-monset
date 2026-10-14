@@ -25,8 +25,8 @@ export default function QuizModal({ quiz, mode, open, session, onClose }) {
       {quiz && (
         <div className="card flex max-h-[calc(100dvh-32px)] flex-col shadow-pop">
           <header className="flex items-start gap-3 border-b border-line p-5 sm:p-6">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lemon/25 text-ochre">
-              <ClipboardCheck className="size-5" strokeWidth={1.75} aria-hidden="true" />
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lemon-100 text-ochre-700">
+              <ClipboardCheck className="size-5 fill-lemon" strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1">
               <h2 id="quiz-title" className="text-lg leading-snug font-extrabold text-primary">{quiz.title}</h2>
@@ -83,7 +83,7 @@ function Take({ quiz, onClose }) {
           {status.best > score ? ` · Best: ${status.best}` : ''}
         </p>
         <div className="mt-6">
-          <button onClick={onClose} className="pressable rounded-pill bg-primary px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-2">
+          <button onClick={onClose} className="pressable rounded-pill bg-primary px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700">
             Back to course
           </button>
         </div>
@@ -110,7 +110,7 @@ function Take({ quiz, onClose }) {
             {q.choices.map((choice, n) => (
               <label
                 key={choice}
-                className={`pressable flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-lemon ${picked === n ? 'border-primary bg-mint/40 text-primary' : 'border-line hover-fine:border-mint hover-fine:bg-wash'}`}
+                className={`pressable flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-lemon ${picked === n ? 'border-primary bg-mint-50 text-primary' : 'border-line hover-fine:border-mint hover-fine:bg-wash'}`}
               >
                 <input
                   type="radio"
@@ -136,7 +136,7 @@ function Take({ quiz, onClose }) {
         <button
           onClick={next}
           disabled={picked === undefined}
-          className="pressable rounded-pill bg-primary px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-2 disabled:pointer-events-none disabled:opacity-40"
+          className="pressable rounded-pill bg-primary px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700 disabled:pointer-events-none disabled:opacity-40"
         >
           {last ? 'Submit' : 'Next'}
         </button>
@@ -157,7 +157,7 @@ function Review({ quiz }) {
             {q.choices.map((choice, c) => {
               const right = c === q.answer_index
               return (
-                <li key={choice} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] ${right ? 'bg-mint/45 font-bold text-primary' : 'text-muted'}`}>
+                <li key={choice} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] ${right ? 'bg-mint-100 font-bold text-primary' : 'text-muted'}`}>
                   {right ? <Check className="size-4 shrink-0" aria-label="Correct answer" /> : <span className="size-4 shrink-0" />}
                   {choice}
                 </li>

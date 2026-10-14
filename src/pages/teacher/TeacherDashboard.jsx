@@ -149,7 +149,7 @@ function ProgressMatrix() {
                 <span className="block text-xs font-normal text-muted">({enrolled(p.id)} enrolled)</span>
               </th>
             ))}
-            <th scope="col" className="bg-mint/30 px-5 py-4 text-center font-extrabold text-primary">Total</th>
+            <th scope="col" className="bg-mint-100 px-5 py-4 text-center font-extrabold text-primary">Total</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-line">
@@ -161,18 +161,18 @@ function ProgressMatrix() {
             </tr>
           ) : (
             rows.map(({ course, cells, total }) => (
-              <tr key={course.id} className="transition-colors duration-150 hover-fine:bg-mint/15">
+              <tr key={course.id} className="transition-colors duration-150 hover-fine:bg-mint-50">
                 <th scope="row" className="px-5 py-3.5 text-left font-semibold text-ink">{course.title}</th>
                 {cells.map((n, i) => (
                   <td key={programs[i].id} className="px-3 py-3.5 text-center">
                     {n ? (
-                      <span className="inline-grid min-w-8 place-items-center rounded-pill bg-mint/60 px-2 py-0.5 font-extrabold text-ink tabular-nums">{n}</span>
+                      <span className="inline-grid min-w-8 place-items-center rounded-pill bg-mint-200 px-2 py-0.5 font-extrabold text-primary-700 tabular-nums">{n}</span>
                     ) : (
                       <span className="text-faint" aria-label="none">-</span>
                     )}
                   </td>
                 ))}
-                <td className="bg-mint/30 px-5 py-3.5 text-center font-extrabold text-primary tabular-nums">{total}</td>
+                <td className="bg-mint-100 px-5 py-3.5 text-center font-extrabold text-primary tabular-nums">{total}</td>
               </tr>
             ))
           )}
@@ -183,9 +183,9 @@ function ProgressMatrix() {
 }
 
 const rankBadge = {
-  1: 'bg-lemon text-ochre-ink',
-  2: 'bg-ochre/15 text-ochre-ink ring-1 ring-ochre/50',
-  3: 'bg-ochre/15 text-ochre-ink ring-1 ring-ochre/50',
+  1: 'bg-lemon text-ochre-800',
+  2: 'bg-ochre-100 text-ochre-800 ring-1 ring-ochre-300',
+  3: 'bg-ochre-100 text-ochre-800 ring-1 ring-ochre-300',
 }
 
 function TopScorers() {
@@ -197,7 +197,7 @@ function TopScorers() {
             <span className="sr-only">Rank </span>
             {s.rank}
           </span>
-          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-mint/60 text-sm font-bold text-primary" aria-hidden="true">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-mint-200 text-sm font-bold text-primary-700" aria-hidden="true">
             {s.initials}
           </span>
           <div className="min-w-0 flex-1">

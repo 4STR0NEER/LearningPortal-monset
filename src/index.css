@@ -5,33 +5,103 @@
   Design tokens. Every color, radius, shadow and curve the app uses lives here.
   Tailwind v4 turns each --color-* into utilities (bg-primary, text-mint, ring-lemon...),
   so components never need a hex value. Rebrand = edit this block.
-*/
-@theme {
-  --color-primary: #0e6973;
-  --color-primary-2: #118c8c;
-  --color-mint: #bad9ce;
-  --color-lemon: #f2bb16;
-  --color-ochre: #bf820f;
-  --color-mint-strong: #4f9a85; /* mint dark enough to read as a chart series on white (3.4:1) */
-  --color-ochre-ink: #5c3d05; /* text on lemon or pale ochre fills (5.8:1 on lemon) */
 
-  --color-page: #f5f9f8;
+  `static` makes Tailwind emit every variable even if no class uses it, so non-Tailwind code
+  (Recharts props, anime.js, inline SVG) can always read var(--color-*).
+
+  Contrast rules (WCAG AA, checked):
+  - White text: primary (6.4:1) or primary-700 (9:1). primary-2 is 4.1:1, so large text only (hero heading).
+  - On mint: text-primary on mint-50/100, text-primary-700 on mint-200. Never white.
+  - On lemon: text-ochre-800 (4.9:1) or ink. Never white. Lemon is never text on white (1.8:1).
+  - Ochre text on white: ochre-700 or darker. ochre-600 is for fills and chart bars only.
+  - muted text stays off mint-100 and darker (fails there); mint-50 is fine (4.6:1).
+*/
+@theme static {
+  /* Palette scales. The step marked * is the exact client color. */
+  --color-primary-50: #f3f8f8;
+  --color-primary-100: #cbdfe1;
+  --color-primary-200: #a3c6ca;
+  --color-primary-300: #7badb2;
+  --color-primary-400: #53949b;
+  --color-primary-500: #2b7b84;
+  --color-primary-600: #0e6973; /* * deep teal */
+  --color-primary-700: #0b515a; /* hover / pressed on primary fills */
+  --color-primary-800: #073a40;
+  --color-primary-900: #042227;
+
+  --color-primary-2-50: #f3f9f9;
+  --color-primary-2-100: #c2e1e1;
+  --color-primary-2-200: #90caca;
+  --color-primary-2-300: #5fb2b2;
+  --color-primary-2-400: #2e9a9a;
+  --color-primary-2-500: #118c8c; /* * teal */
+  --color-primary-2-600: #0e7474;
+  --color-primary-2-700: #0b5c5c;
+  --color-primary-2-800: #084443;
+  --color-primary-2-900: #052c2b;
+
+  --color-mint-50: #e9f3ef; /* surfaces: card tops, table headers, completed rows */
+  --color-mint-100: #d6e8e2; /* total column, hovers */
+  --color-mint-200: #c2ded4; /* pills */
+  --color-mint-300: #bad9ce; /* * pale mint: borders, glow */
+  --color-mint-400: #a2c7bb;
+  --color-mint-500: #8ab5a8;
+  --color-mint-600: #72a395;
+  --color-mint-700: #5a9183; /* chart series on white */
+  --color-mint-800: #427f70;
+  --color-mint-900: #2a6e5d;
+
+  --color-lemon-50: #fefaec;
+  --color-lemon-100: #fae7ae; /* icon tiles */
+  --color-lemon-200: #f7d570;
+  --color-lemon-300: #f4c332;
+  --color-lemon-400: #f2bb16; /* * lemon */
+  --color-lemon-500: #d1a112;
+  --color-lemon-600: #b0860f;
+  --color-lemon-700: #906c0b;
+  --color-lemon-800: #6f5108;
+  --color-lemon-900: #4e3704;
+
+  --color-ochre-50: #fbf8f1;
+  --color-ochre-100: #f1e3c9; /* #2/#3 badges */
+  --color-ochre-200: #e6cea2;
+  --color-ochre-300: #dcba7b;
+  --color-ochre-400: #d1a553;
+  --color-ochre-500: #c7912c;
+  --color-ochre-600: #bf820f; /* * ochre */
+  --color-ochre-700: #93630b; /* icon strokes on light fills, text on white */
+  --color-ochre-800: #684507; /* text on lemon */
+  --color-ochre-900: #3c2603; /* lemon pressed text */
+
+  /* Role names: what components use day to day. Each points at its scale's client step. */
+  --color-primary: var(--color-primary-600);
+  --color-primary-2: var(--color-primary-2-500);
+  --color-mint: var(--color-mint-300);
+  --color-lemon: var(--color-lemon-400);
+  --color-ochre: var(--color-ochre-600);
+
+  /* Neutrals */
+  --color-page: #f6faf9; /* near white, faint teal */
   --color-surface: #ffffff;
-  --color-wash: #eef5f3; /* pale panels: card tops, table headers */
-  --color-line: #e1ebe8;
-  --color-ink: #1f3236; /* body text, slate with a teal lean */
-  --color-muted: #5a6b6f; /* secondary text, 5.5:1 on white */
-  --color-faint: #9aabaf; /* dashes, locked labels: decorative only */
+  --color-wash: var(--color-mint-50); /* pale panels */
+  --color-line: #dfe8e5; /* light grey, hint of mint */
+  --color-ink: #1f2d33; /* body text, slate */
+  --color-muted: #5f7074; /* secondary text, 5.2:1 on white (the #6B7C80 range dips under 4.5) */
+  --color-faint: #a8b0b2; /* matrix dashes, locked labels: neutral grey, decorative only */
+}
+
+@theme {
 
   --font-sans: 'Nunito Sans Variable', ui-sans-serif, system-ui, sans-serif;
 
   --radius-card: 16px;
   --radius-pill: 10px;
 
-  --shadow-card: 0 1px 2px rgb(14 105 115 / 0.05), 0 6px 20px -8px rgb(14 105 115 / 0.12);
-  --shadow-lift: 0 2px 4px rgb(14 105 115 / 0.06), 0 14px 30px -10px rgb(14 105 115 / 0.2);
-  --shadow-pop: 0 4px 10px rgb(14 105 115 / 0.08), 0 18px 40px -12px rgb(14 105 115 / 0.25);
-  --drop-shadow-seal: 0 8px 20px rgb(14 105 115 / 0.25);
+  /* Shadows are tinted with the primary token, so a rebrand re-tints them too. */
+  --shadow-card: 0 1px 2px color-mix(in srgb, var(--color-primary) 5%, transparent), 0 6px 20px -8px color-mix(in srgb, var(--color-primary) 12%, transparent);
+  --shadow-lift: 0 2px 4px color-mix(in srgb, var(--color-primary) 6%, transparent), 0 14px 30px -10px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  --shadow-pop: 0 4px 10px color-mix(in srgb, var(--color-primary) 8%, transparent), 0 18px 40px -12px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  --drop-shadow-seal: 0 8px 20px color-mix(in srgb, var(--color-primary) 25%, transparent);
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -48,8 +118,8 @@
   }
 
   ::selection {
-    background: var(--color-mint);
-    color: var(--color-primary);
+    background: var(--color-mint-200);
+    color: var(--color-primary-700);
   }
 
   /* Lemon ring with an ochre inner edge: reads as lemon, still clears 3:1 on white */
@@ -57,6 +127,12 @@
     outline: 2px solid var(--color-lemon);
     outline-offset: 2px;
     box-shadow: 0 0 0 2px var(--color-ochre);
+  }
+
+  /* Text fields get a calm teal outline instead: you sit in them, the lemon ring is for jumping between things. */
+  :is(input:not([type='checkbox'], [type='radio']), select, textarea):focus-visible {
+    outline-color: var(--color-primary-2);
+    box-shadow: none;
   }
 
   * {

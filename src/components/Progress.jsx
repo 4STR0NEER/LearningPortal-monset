@@ -28,7 +28,7 @@ export function ProgressRing({ value, size = 56, label }) {
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={c * (1 - value / 100)}
-          className="stroke-primary-2 transition-[stroke-dashoffset] duration-500 ease-out motion-reduce:transition-none"
+          className="stroke-primary transition-[stroke-dashoffset] duration-500 ease-out motion-reduce:transition-none"
         />
       </svg>
       <span className="text-sm font-extrabold text-primary tabular-nums">{value}%</span>

@@ -8,7 +8,7 @@ import { course_completion } from '../../data/matrix'
 const series = [
   { key: 'mastered', label: 'Mastered', color: 'var(--color-primary)' },
   { key: 'proficient', label: 'Proficient', color: 'var(--color-primary-2)' },
-  { key: 'developing', label: 'Developing', color: 'var(--color-mint-strong)' },
+  { key: 'developing', label: 'Developing', color: 'var(--color-mint-700)' },
   { key: 'beginning', label: 'Beginning', color: 'var(--color-ochre)' },
 ]
 
@@ -16,7 +16,7 @@ const axisTick = { fill: 'var(--color-muted)', fontSize: 12 }
 const tooltip = {
   contentStyle: { borderRadius: 12, border: '1px solid var(--color-line)', boxShadow: 'var(--shadow-card)', fontSize: 13 },
   labelStyle: { color: 'var(--color-ink)', fontWeight: 700 },
-  cursor: { fill: 'var(--color-mint)', fillOpacity: 0.25 },
+  cursor: { fill: 'var(--color-mint-50)' },
 }
 
 const data = course_completion.map((r) => ({ ...r, name: getCourse(r.course_id).title }))
@@ -35,7 +35,7 @@ export default function CompletionCharts() {
         </figcaption>
         <ResponsiveContainer width="100%" height={height}>
           <BarChart data={data} layout="vertical" margin={{ left: 8, right: 16 }}>
-            <CartesianGrid horizontal={false} stroke="var(--color-line)" />
+            <CartesianGrid horizontal={false} stroke="var(--color-mint-100)" />
             <XAxis type="number" domain={[0, 100]} unit="%" tick={axisTick} axisLine={false} tickLine={false} />
             <YAxis type="category" dataKey="name" width={170} tick={axisTick} axisLine={false} tickLine={false} />
             <Tooltip {...tooltip} formatter={(v) => [`${v}%`, 'Avg. completion']} />
@@ -51,7 +51,7 @@ export default function CompletionCharts() {
         </figcaption>
         <ResponsiveContainer width="100%" height={height}>
           <BarChart data={data} layout="vertical" margin={{ left: 8, right: 16 }}>
-            <CartesianGrid horizontal={false} stroke="var(--color-line)" />
+            <CartesianGrid horizontal={false} stroke="var(--color-mint-100)" />
             <XAxis type="number" allowDecimals={false} tick={axisTick} axisLine={false} tickLine={false} />
             <YAxis type="category" dataKey="name" width={170} tick={axisTick} axisLine={false} tickLine={false} />
             <Tooltip {...tooltip} />

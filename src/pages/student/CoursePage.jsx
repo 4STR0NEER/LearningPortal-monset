@@ -59,7 +59,7 @@ export default function CoursePage() {
                       aria-current={on ? 'true' : undefined}
                       title={w.is_locked ? 'Unlocks after you finish the previous week' : undefined}
                       className={`pressable flex w-full items-center justify-between rounded-pill px-4 py-3 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:active:scale-100 ${
-                        on ? 'bg-primary font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'bg-wash font-semibold text-primary hover:bg-mint/50'
+                        on ? 'bg-primary font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'bg-wash font-semibold text-primary hover:bg-mint-100'
                       }`}
                     >
                       Week {w.week_no}
@@ -110,9 +110,9 @@ function ReadingRow({ material }) {
   const { isDone, toggleDone } = useProgress()
   const done = isDone(material.id)
   return (
-    <li className={`${rowBase} ${done ? 'border-mint bg-mint/35' : 'border-line'}`}>
+    <li className={`${rowBase} ${done ? 'border-mint bg-mint-50' : 'border-line'}`}>
       <div className="flex min-w-0 flex-1 items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-mint/50 text-primary">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-mint-200 text-primary-700">
           <BookOpen className="size-5" strokeWidth={1.75} aria-hidden="true" />
         </span>
         <div className="min-w-0">
@@ -132,21 +132,21 @@ function QuizRow({ quiz, onOpen }) {
   const { quizStatus } = useProgress()
   const s = quizStatus(quiz)
   return (
-    <li className={`${rowBase} ${s.completed ? 'border-mint bg-mint/35' : 'border-line'}`}>
+    <li className={`${rowBase} ${s.completed ? 'border-mint bg-mint-50' : 'border-line'}`}>
       <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lemon/25 text-ochre">
-          <ClipboardCheck className="size-5" strokeWidth={1.75} aria-hidden="true" />
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lemon-100 text-ochre-700">
+          <ClipboardCheck className="size-5 fill-lemon" strokeWidth={1.75} aria-hidden="true" />
         </span>
         <div className="min-w-0">
           <p className="font-bold text-ink">{quiz.title}</p>
           <div className="mt-1.5 flex flex-wrap gap-1.5">
             <span className={`${pill} border-line text-muted`}>Total: {quiz.total_points}</span>
             {s.best !== null && (
-              <span className={`${pill} border-mint bg-surface text-primary`}>
+              <span className={`${pill} border-transparent bg-mint-200 text-primary-700`}>
                 Score: {s.best}/{quiz.total_points}
               </span>
             )}
-            <span className={`${pill} border-mint text-primary`}>
+            <span className={`${pill} border-transparent bg-mint-200 text-primary-700`}>
               Attempts: {s.used} / {quiz.max_attempts}
             </span>
           </div>
@@ -155,12 +155,12 @@ function QuizRow({ quiz, onOpen }) {
       <div className="flex items-center gap-2 self-end sm:self-auto">
         <button
           onClick={() => onOpen(quiz, s.canStart ? 'take' : 'review')}
-          className="pressable min-w-[88px] rounded-pill bg-primary px-5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-2"
+          className="pressable min-w-[88px] rounded-pill bg-primary px-5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
         >
           {s.canStart ? (s.used ? 'Retake' : 'Start') : 'Review'}
         </button>
         {s.completed && (
-          <span className="grid size-8 place-items-center rounded-lg bg-lemon text-ink" aria-label="Completed">
+          <span className="grid size-8 place-items-center rounded-lg bg-lemon text-ochre-900" aria-label="Completed">
             <Check className="size-4" strokeWidth={3} />
           </span>
         )}

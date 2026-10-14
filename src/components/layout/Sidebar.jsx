@@ -25,7 +25,7 @@ const menus = {
 }
 
 const itemBase = 'pressable flex w-full items-center gap-3 rounded-pill px-3 py-2.5 text-[15px] font-semibold transition-colors duration-150'
-const idle = 'text-primary hover:bg-mint/40'
+const idle = 'text-primary hover:bg-mint-100'
 const active = 'bg-primary text-white shadow-card'
 
 export default function Sidebar({ collapsed = false, onExpand, onClose }) {
@@ -112,7 +112,7 @@ export default function Sidebar({ collapsed = false, onExpand, onClose }) {
                   aria-haspopup="menu"
                   aria-expanded={open}
                   aria-label="Account menu"
-                  className="pressable -mr-2 grid size-8 place-items-center rounded-lg text-muted transition-colors duration-150 hover:bg-mint/40 hover:text-primary"
+                  className="pressable -mr-2 grid size-8 place-items-center rounded-lg text-muted transition-colors duration-150 hover:bg-mint-100 hover:text-primary"
                 >
                   <EllipsisVertical className="size-4" />
                 </button>
@@ -167,7 +167,7 @@ function CourseGroup({ item, pathname, collapsed, onExpand }) {
                 <Link
                   to={c.to}
                   aria-current={on ? 'page' : undefined}
-                  className={`pressable block truncate rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${on ? 'bg-mint/60 font-bold text-primary' : 'font-medium text-muted hover:bg-mint/30 hover:text-primary'}`}
+                  className={`pressable block truncate rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${on ? 'bg-mint-200 font-bold text-primary-700' : 'font-medium text-muted hover:bg-mint-50 hover:text-primary'}`}
                 >
                   {c.label}
                 </Link>
