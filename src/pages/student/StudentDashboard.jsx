@@ -27,11 +27,11 @@ export default function StudentDashboard() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-[18px] bg-sun px-6 py-9 text-navy shadow-card sm:px-10 sm:py-12">
+      <section className="relative overflow-hidden rounded-[18px] bg-navy px-6 py-9 text-white shadow-card sm:px-10 sm:py-12">
         <h1 className="relative text-3xl font-extrabold tracking-tight text-balance sm:text-4xl lg:text-[44px] lg:leading-[1.1]">
           Welcome back, {user.first_name}!
         </h1>
-        <p className="relative mt-3 max-w-[62ch] text-lg leading-relaxed text-navy sm:text-xl">
+        <p className="relative mt-3 max-w-[62ch] text-lg leading-relaxed text-white sm:text-xl">
           Ready to continue learning? Select a course below to view your current progress, access learning materials, and complete your assessments.
         </p>
       </section>

@@ -6,9 +6,8 @@
   Tailwind v4 turns each --color-* into utilities (bg-navy, text-primary, fill-sun...),
   so components never need a hex value. Rebrand = edit this block.
 
-  Palette: Philippine beach. Sun yellow is the main brand fill (sidebar pill, banners, stat cards,
-  buttons, tabs), always with navy text on it. Blue is the accent family: navy for text and small
-  marks, blue green for progress and icons, sky for pills and completed rows. Orange is the press state.
+  Palette: Philippine beach. Prussian navy carries the brand weight, blue green is the
+  lively partner, sky is for soft surfaces, sun and orange are small, warm accents.
 
   `static` makes Tailwind emit every variable even if no class uses it, so non-Tailwind code
   (Recharts props, anime.js, inline SVG) can always read var(--color-*).
@@ -16,14 +15,13 @@
   `text-teal-600` simply doesn't compile: every color has to come from this file.
 
   Contrast rules (WCAG AA, checked):
-  - Yellow fills take navy text only: sun 7.9:1, navy/80 5.4:1, orange-400 press 6.3:1. White on sun is 1.6:1.
-  - White text only on navy (13.9:1) or primary-700 (6.3:1); primary (#219EBC) is 3.1:1, large text only.
-  - Sky and orange are never under white text either; navy on both.
+  - White text: navy (13.9:1) or primary-700 (6.3:1). primary (#219EBC) is 3.1:1, so white on it
+    is for large/bold-large text only; buttons hover to primary-700.
+  - Sky, sun and orange are never under white text. Navy text on all three (7.7 / 7.9 / 5.6:1).
   - Sun and orange are never text on white. Accent text uses orange-700+ (5.1:1); pending
     badges are orange-800 on orange-100 (6.1:1).
   - primary as text on white needs primary-700 (6.3:1); primary-500 is fine for icons and fills (3.1:1).
-  - muted text stays on white, page, sun-50 or sky-50 (4.7:1+); it fails on sun-100 and sky-100.
-  - Yellow chart bars get a sun-700 outline so the bar edge clears 3:1 on white.
+  - muted text stays on white, page or sky-50 (4.7:1+); it fails on sky-100.
 */
 @theme static {
   --color-*: initial;
@@ -96,9 +94,9 @@
   --color-orange: var(--color-orange-500);
 
   /* Neutrals */
-  --color-page: #fbfaf5; /* near white, faint warm tint to sit with the yellow */
+  --color-page: #f5f9fb; /* near white, faint cool blue */
   --color-surface: #ffffff;
-  --color-wash: var(--color-sun-50); /* pale panels: warm cream */
+  --color-wash: var(--color-sky-50); /* pale panels */
   --color-line: #dde8ee; /* light grey, hint of sky */
   --color-ink: #14303d; /* body text, slate leaning Prussian */
   --color-muted: #55707c; /* secondary text, 5.3:1 on white (the #64808C range is 4.2:1) */
@@ -133,17 +131,18 @@
   }
 
   ::selection {
-    background: var(--color-sun-200);
+    background: var(--color-sky-200);
     color: var(--color-navy);
   }
 
-  /* Blue accent focus ring: shows on white and on yellow fills alike (6.3:1 / 4.3:1). */
+  /* Sun ring with a navy inner edge: reads as yellow, still clears 3:1 on any background */
   :focus-visible {
-    outline: 2px solid var(--color-primary-700);
+    outline: 2px solid var(--color-sun);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-navy);
   }
 
-  /* Text fields get the lighter blue green: you sit in them, the darker ring is for jumping between things. */
+  /* Text fields get a calm blue green outline instead: you sit in them, the sun ring is for jumping between things. */
   :is(input:not([type='checkbox'], [type='radio']), select, textarea):focus-visible {
     outline-color: var(--color-primary);
     box-shadow: none;
@@ -151,7 +150,7 @@
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-sun-300) transparent;
+    scrollbar-color: var(--color-sky) transparent;
   }
 
   button {
@@ -182,8 +181,8 @@
     so leaving mid-slide just reverses. Touch has no hover, but still gets the press wipe.
     The hover bar is a bright accent; as the press wipe fills, it settles into a fill the label
     still reads on.
-    .wipe = on yellow fills: navy bar, wipes to orange 400 (navy text stays 6.3:1)
-    .wipe-soft = on white / pale controls: yellow bar, wipes to sun 200 (navy text stays 9.9:1)
+    .wipe = on navy fills: sun bar, wipes to blue green 700 (white text stays 6.3:1)
+    .wipe-soft = on white / pale controls: blue green bar, wipes to sky 200 (navy text stays 8.5:1)
   */
   .wipe,
   .wipe-soft {
@@ -192,12 +191,12 @@
     overflow: hidden;
   }
   .wipe {
-    --wipe-bar: var(--color-navy);
-    --wipe: var(--color-orange-400);
+    --wipe-bar: var(--color-sun);
+    --wipe: var(--color-primary-700);
   }
   .wipe-soft {
-    --wipe-bar: var(--color-sun);
-    --wipe: var(--color-sun-200);
+    --wipe-bar: var(--color-primary);
+    --wipe: var(--color-sky-200);
   }
   .wipe::before,
   .wipe-soft::before {

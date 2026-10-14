@@ -129,7 +129,7 @@ function Actions({ applicant, onDecide, className = 'justify-end' }) {
     <div className={`flex gap-2 ${className}`}>
       <button
         onClick={() => onDecide(applicant, 'approved')}
-        className="pressable inline-flex items-center gap-1.5 rounded-pill bg-sun px-3.5 py-2 text-sm font-bold text-navy transition-colors duration-150 wipe"
+        className="pressable inline-flex items-center gap-1.5 rounded-pill bg-navy px-3.5 py-2 text-sm font-bold text-white transition-colors duration-150 wipe"
       >
         <Check className="size-4" strokeWidth={2.5} aria-hidden="true" /> Approve
       </button>
