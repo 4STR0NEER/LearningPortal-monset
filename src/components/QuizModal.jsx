@@ -83,7 +83,7 @@ function Take({ quiz, onClose }) {
           {status.best > score ? ` · Best: ${status.best}` : ''}
         </p>
         <div className="mt-6">
-          <button onClick={onClose} className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700">
+          <button onClick={onClose} className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 wipe">
             Back to course
           </button>
         </div>
@@ -129,14 +129,14 @@ function Take({ quiz, onClose }) {
         <button
           onClick={() => setI(i - 1)}
           disabled={i === 0}
-          className="pressable rounded-pill px-4 py-2.5 font-bold text-navy transition-colors duration-150 hover:bg-wash disabled:pointer-events-none disabled:opacity-40"
+          className="pressable rounded-pill px-4 py-2.5 font-bold text-navy transition-colors duration-150 wipe-soft disabled:pointer-events-none disabled:opacity-40"
         >
           Back
         </button>
         <button
           onClick={next}
           disabled={picked === undefined}
-          className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700 disabled:pointer-events-none disabled:opacity-40"
+          className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 wipe disabled:pointer-events-none disabled:opacity-40"
         >
           {last ? 'Submit' : 'Next'}
         </button>

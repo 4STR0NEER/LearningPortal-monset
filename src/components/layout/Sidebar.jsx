@@ -25,7 +25,7 @@ const menus = {
 }
 
 const itemBase = 'pressable flex w-full items-center gap-3 rounded-pill px-3 py-2.5 text-[15px] font-semibold transition-colors duration-150'
-const idle = 'text-navy hover:bg-sky-100'
+const idle = 'wipe-soft text-navy'
 const active = 'bg-navy text-white shadow-card'
 
 export default function Sidebar({ collapsed = false, onExpand, onClose }) {

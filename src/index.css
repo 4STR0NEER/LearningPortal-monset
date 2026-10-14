@@ -173,11 +173,76 @@
   .pressable:active {
     transform: scale(0.97);
   }
+
+  /*
+    Color wipe: a layer of --wipe color sits behind the label, hidden by clip-path.
+    Hover (real mouse only) slides a slim bar in from the left along the bottom edge;
+    pressing wipes it up to fill the whole button. clip-path transitions are interruptible,
+    so leaving mid-slide just reverses. Touch has no hover, but still gets the press wipe.
+    The hover bar is a bright accent; as the press wipe fills, it settles into a fill the label
+    still reads on.
+    .wipe = on navy fills: sun bar, wipes to blue green 700 (white text stays 6.3:1)
+    .wipe-soft = on white / pale controls: blue green bar, wipes to sky 200 (navy text stays 8.5:1)
+  */
+  .wipe,
+  .wipe-soft {
+    position: relative;
+    isolation: isolate; /* keeps the z-index:-1 layer above the button's own background */
+    overflow: hidden;
+  }
+  .wipe {
+    --wipe-bar: var(--color-sun);
+    --wipe: var(--color-primary-700);
+  }
+  .wipe-soft {
+    --wipe-bar: var(--color-primary);
+    --wipe: var(--color-sky-200);
+  }
+  .wipe::before,
+  .wipe-soft::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--wipe-bar);
+    clip-path: inset(calc(100% - 3px) 100% 0 0);
+    transition:
+      clip-path 220ms var(--ease-out),
+      background-color 160ms var(--ease-out);
+  }
+  .wipe:active::before,
+  .wipe-soft:active::before {
+    clip-path: inset(0 0 0 0);
+    background: var(--wipe);
+    transition-duration: 160ms;
+  }
+  .wipe:disabled::before,
+  .wipe-soft:disabled::before {
+    display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wipe:hover::before,
+  .wipe-soft:hover::before {
+    clip-path: inset(calc(100% - 3px) 0 0 0);
+  }
+  .wipe:active::before,
+  .wipe-soft:active::before {
+    clip-path: inset(0 0 0 0);
+    background: var(--wipe);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pressable:active {
     transform: none;
+  }
+  /* Keep the color feedback, drop the sliding. */
+  .wipe::before,
+  .wipe-soft::before {
+    transition: none;
   }
 }
 

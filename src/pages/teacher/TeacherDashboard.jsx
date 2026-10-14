@@ -1,5 +1,5 @@
 import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
-import { motion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import { animate } from 'animejs'
 import { BarChart3, CircleCheckBig, GraduationCap, Trophy, UserPlus, Users } from 'lucide-react'
 import { courses, getCourse } from '../../data/courses'
@@ -18,7 +18,9 @@ const tabs = [
 ]
 
 export default function TeacherDashboard() {
-  const [tab, setTab] = useState(tabs[0].id)
+  // dir is +1 when moving to a tab on the right, -1 to the left: the panel slides in from that side.
+  const [[tab, dir], setTabState] = useState([tabs[0].id, 0])
+  const setTab = (id) => setTabState(([cur]) => [id, Math.sign(tabs.findIndex((t) => t.id === id) - tabs.findIndex((t) => t.id === cur))])
   const tabRefs = useRef({})
   const current = tabs.find((t) => t.id === tab)
   const { students, pendingCount } = useAdmin()
@@ -74,7 +76,7 @@ export default function TeacherDashboard() {
               aria-controls={`panel-${t.id}`}
               tabIndex={on ? 0 : -1}
               onClick={() => setTab(t.id)}
-              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-white' : 'text-ink hover-fine:text-navy'}`}
+              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-white' : 'wipe-soft text-ink hover-fine:text-navy'}`}
             >
               {/* One shared layoutId: Motion slides this pill from the old tab to the new one. */}
               {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-navy" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
@@ -84,31 +86,47 @@ export default function TeacherDashboard() {
         })}
       </div>
 
-      <motion.section
-        key={tab}
-        role="tabpanel"
-        id={`panel-${tab}`}
-        aria-labelledby={`tab-${tab}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.18 }}
-        className="mt-6"
-      >
-        <header className="mb-5 flex items-center gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-full border border-sky bg-surface text-navy">
-            <current.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
-          </span>
-          <div>
-            <h2 className="text-xl font-extrabold text-ink">{current.title}</h2>
-            <p className="text-sm text-muted">{current.subtitle}</p>
-          </div>
-        </header>
-        <Suspense fallback={<div className="card h-[420px] animate-pulse bg-wash motion-reduce:animate-none" aria-label="Loading charts" />}>
-          <current.Body />
-        </Suspense>
-      </motion.section>
+      {/* overflow-x-clip: the 16px slide never makes the page scroll sideways on a phone. */}
+      <div className="overflow-x-clip">
+        {/* mode="wait": the old panel fades out fast (120ms) before the new one slides in, so the two never overlap. */}
+        <AnimatePresence mode="wait" initial={false} custom={dir}>
+          <motion.section
+            key={tab}
+            custom={dir}
+            variants={panelMotion}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            role="tabpanel"
+            id={`panel-${tab}`}
+            aria-labelledby={`tab-${tab}`}
+            className="mt-6"
+          >
+            <header className="mb-5 flex items-center gap-3">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-sky bg-surface text-navy">
+                <current.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <div>
+                <h2 className="text-xl font-extrabold text-ink">{current.title}</h2>
+                <p className="text-sm text-muted">{current.subtitle}</p>
+              </div>
+            </header>
+            <Suspense fallback={<div className="card h-[420px] animate-pulse bg-wash motion-reduce:animate-none" aria-label="Loading charts" />}>
+              <current.Body />
+            </Suspense>
+          </motion.section>
+        </AnimatePresence>
+      </div>
     </div>
   )
+}
+
+// Panel switch: a short slide (16px) toward the direction of travel, ease-out in, quicker ease-in out.
+// MotionConfig reducedMotion="user" (main.jsx) drops the x movement and keeps the fade.
+const panelMotion = {
+  enter: (d) => ({ opacity: 0, x: d * 16 }),
+  center: { opacity: 1, x: 0, transition: { duration: 0.22, ease: [0.23, 1, 0.32, 1] } },
+  exit: (d) => ({ opacity: 0, x: d * -16, transition: { duration: 0.12, ease: [0.4, 0, 1, 1] } }),
 }
 
 // Counts from whatever is on screen to `value` with anime.js. Starts from the current number,

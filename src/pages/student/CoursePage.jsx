@@ -59,7 +59,7 @@ export default function CoursePage() {
                       aria-current={on ? 'true' : undefined}
                       title={w.is_locked ? 'Unlocks after you finish the previous week' : undefined}
                       className={`pressable flex w-full items-center justify-between rounded-pill px-4 py-3 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:active:scale-100 ${
-                        on ? 'bg-navy font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'bg-wash font-semibold text-navy hover:bg-sky-100'
+                        on ? 'bg-navy font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'wipe-soft bg-wash font-semibold text-navy'
                       }`}
                     >
                       Week {w.week_no}
@@ -155,7 +155,7 @@ function QuizRow({ quiz, onOpen }) {
       <div className="flex items-center gap-2 self-end sm:self-auto">
         <button
           onClick={() => onOpen(quiz, s.canStart ? 'take' : 'review')}
-          className="pressable min-w-[88px] rounded-pill bg-navy px-5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
+          className="pressable min-w-[88px] rounded-pill bg-navy px-5 py-2 text-sm font-bold text-white transition-colors duration-150 wipe"
         >
           {s.canStart ? (s.used ? 'Retake' : 'Start') : 'Review'}
         </button>

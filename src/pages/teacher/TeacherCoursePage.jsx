@@ -67,7 +67,7 @@ export default function TeacherCoursePage() {
                       onClick={() => setWeekId(w.id)}
                       aria-current={on ? 'true' : undefined}
                       className={`pressable flex w-full items-center justify-between gap-3 rounded-pill px-4 py-3 text-left transition-colors duration-150 ${
-                        on ? 'bg-navy font-extrabold text-white shadow-card' : 'bg-wash font-semibold text-navy hover:bg-sky-100'
+                        on ? 'bg-navy font-extrabold text-white shadow-card' : 'wipe-soft bg-wash font-semibold text-navy'
                       }`}
                     >
                       Week {w.week_no}
@@ -81,7 +81,7 @@ export default function TeacherCoursePage() {
                 )
               })}
             </ul>
-            <button onClick={placeholder('Adding a week')} className="pressable mt-3 flex w-full items-center justify-center gap-2 rounded-pill border border-dashed border-sky px-4 py-3 text-sm font-bold text-navy transition-colors duration-150 hover:bg-sky-50">
+            <button onClick={placeholder('Adding a week')} className="pressable mt-3 flex w-full items-center justify-center gap-2 rounded-pill border border-dashed border-sky px-4 py-3 text-sm font-bold text-navy transition-colors duration-150 wipe-soft">
               <Plus className="size-4" aria-hidden="true" /> Add week
             </button>
           </div>
@@ -92,7 +92,7 @@ export default function TeacherCoursePage() {
             <h2 className="text-2xl font-extrabold tracking-tight text-balance text-navy lg:text-[34px] lg:leading-tight">
               Week {week.week_no}: {week.title}
             </h2>
-            <button onClick={placeholder('Editing a week')} aria-label={`Edit week ${week.week_no}`} className="pressable grid size-10 shrink-0 place-items-center rounded-pill border border-line text-navy transition-colors duration-150 hover:bg-wash">
+            <button onClick={placeholder('Editing a week')} aria-label={`Edit week ${week.week_no}`} className="pressable grid size-10 shrink-0 place-items-center rounded-pill border border-line text-navy transition-colors duration-150 wipe-soft">
               <Pencil className="size-4" aria-hidden="true" />
             </button>
           </div>
@@ -133,7 +133,7 @@ export default function TeacherCoursePage() {
   )
 }
 
-const outlineBtn = 'pressable inline-flex items-center gap-2 rounded-pill border border-line bg-surface px-4 py-2.5 text-sm font-bold text-navy transition-colors duration-150 hover:border-sky hover:bg-wash'
+const outlineBtn = 'pressable inline-flex items-center gap-2 rounded-pill border border-line bg-surface px-4 py-2.5 text-sm font-bold text-navy transition-colors duration-150 wipe-soft hover:border-sky'
 const pill = 'rounded-full border px-2.5 py-0.5 text-xs font-bold tabular-nums'
 
 function ContentRow({ icon: Icon, iconClass = '', tile, title, onEdit, children }) {
@@ -146,7 +146,7 @@ function ContentRow({ icon: Icon, iconClass = '', tile, title, onEdit, children 
         <p className="font-bold text-ink">{title}</p>
         {children}
       </div>
-      <button onClick={onEdit} className="pressable inline-flex shrink-0 items-center gap-1.5 rounded-pill px-3 py-2 text-sm font-bold text-navy transition-colors duration-150 hover:bg-wash">
+      <button onClick={onEdit} className="pressable inline-flex shrink-0 items-center gap-1.5 rounded-pill px-3 py-2 text-sm font-bold text-navy transition-colors duration-150 wipe-soft">
         <Pencil className="size-4" aria-hidden="true" />
         <span className="max-sm:sr-only">Edit</span>
       </button>
