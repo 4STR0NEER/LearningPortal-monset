@@ -25,8 +25,8 @@ const menus = {
 }
 
 const itemBase = 'pressable flex w-full items-center gap-3 rounded-pill px-3 py-2.5 text-[15px] font-semibold transition-colors duration-150'
-const idle = 'text-primary hover:bg-mint-100'
-const active = 'bg-primary text-white shadow-card'
+const idle = 'text-navy hover:bg-sky-100'
+const active = 'bg-navy text-white shadow-card'
 
 export default function Sidebar({ collapsed = false, onExpand, onClose }) {
   const { role, user } = useRole()
@@ -39,7 +39,7 @@ export default function Sidebar({ collapsed = false, onExpand, onClose }) {
         <img src={brand.logo} alt="" className="size-12 shrink-0" />
         {!collapsed && (
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[22px] leading-none font-black tracking-tight text-primary [font-stretch:80%]">{brand.wordmark}</p>
+            <p className="truncate text-[22px] leading-none font-black tracking-tight text-navy [font-stretch:80%]">{brand.wordmark}</p>
             <p className="mt-1.5 flex items-center gap-1.5 text-[9px] leading-tight font-semibold text-muted">
               <span className="h-px w-2 shrink-0 bg-line" />
               <span className="line-clamp-2">{brand.tagline}</span>
@@ -112,7 +112,7 @@ export default function Sidebar({ collapsed = false, onExpand, onClose }) {
                   aria-haspopup="menu"
                   aria-expanded={open}
                   aria-label="Account menu"
-                  className="pressable -mr-2 grid size-8 place-items-center rounded-lg text-muted transition-colors duration-150 hover:bg-mint-100 hover:text-primary"
+                  className="pressable -mr-2 grid size-8 place-items-center rounded-lg text-muted transition-colors duration-150 hover:bg-sky-100 hover:text-navy"
                 >
                   <EllipsisVertical className="size-4" />
                 </button>
@@ -154,12 +154,12 @@ function CourseGroup({ item, pathname, collapsed, onExpand }) {
         {!collapsed && (
           <>
             <span className="flex-1 truncate text-left">{item.label}</span>
-            <ChevronRight className={`size-4 shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none ${open ? 'rotate-90' : ''}`} aria-hidden="true" />
+            <ChevronRight className={`size-4 shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none ${open ? 'rotate-90 text-primary' : ''}`} aria-hidden="true" />
           </>
         )}
       </button>
       {open && !collapsed && (
-        <ul className="mt-1 mb-2 ml-[22px] space-y-0.5 border-l border-mint pl-3 transition-opacity duration-150 starting:opacity-0">
+        <ul className="mt-1 mb-2 ml-[22px] space-y-0.5 border-l border-sky pl-3 transition-opacity duration-150 starting:opacity-0">
           {item.children.map((c) => {
             const on = pathname === c.to
             return (
@@ -167,7 +167,7 @@ function CourseGroup({ item, pathname, collapsed, onExpand }) {
                 <Link
                   to={c.to}
                   aria-current={on ? 'page' : undefined}
-                  className={`pressable block truncate rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${on ? 'bg-mint-200 font-bold text-primary-700' : 'font-medium text-muted hover:bg-mint-50 hover:text-primary'}`}
+                  className={`pressable block truncate rounded-lg px-3 py-1.5 text-sm transition-colors duration-150 ${on ? 'bg-sky-200 font-bold text-navy' : 'font-medium text-muted hover:bg-sky-50 hover:text-navy'}`}
                 >
                   {c.label}
                 </Link>

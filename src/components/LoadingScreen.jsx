@@ -49,7 +49,7 @@ export default function LoadingScreen({ onLeave, onDone }) {
   return (
     <div ref={root} role="status" aria-live="polite" className="fixed inset-0 z-[100] grid place-items-center bg-page">
       <div className="relative grid place-items-center">
-        <div className="glow absolute size-56 rounded-full bg-mint opacity-70 blur-3xl" aria-hidden="true" />
+        <div className="glow absolute size-56 rounded-full bg-sky opacity-70 blur-3xl" aria-hidden="true" />
         <img src={brand.logo} alt="" className="emblem relative size-32 drop-shadow-seal" />
       </div>
       <span className="sr-only">Loading {brand.name}</span>

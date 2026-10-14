@@ -23,14 +23,14 @@ export default function CoursePage() {
 
   return (
     <div>
-      <Link to="/student" className="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline hover:underline-offset-4">
+      <Link to="/student" className="inline-flex items-center gap-1.5 text-sm font-bold text-navy hover:underline hover:underline-offset-4">
         <ArrowLeft className="size-4" aria-hidden="true" /> Back to Dashboard
       </Link>
 
-      <h1 className="mt-4 text-4xl font-black tracking-tight text-balance text-primary lg:text-[52px] lg:leading-[1.05]">{course.title}</h1>
+      <h1 className="mt-4 text-4xl font-black tracking-tight text-balance text-navy lg:text-[52px] lg:leading-[1.05]">{course.title}</h1>
       <p className="mt-2 text-lg text-muted lg:text-2xl">{course.description}</p>
 
-      <section className="mt-7 rounded-[18px] bg-primary px-6 py-5 text-white shadow-card sm:px-8 sm:py-6">
+      <section className="mt-7 rounded-[18px] bg-navy px-6 py-5 text-white shadow-card sm:px-8 sm:py-6">
         <h2 className="text-lg font-extrabold">General Instruction</h2>
         <p className="mt-1 text-white/90">Select a topic from the left sidebar to load its materials. Mark materials as done to track progress.</p>
       </section>
@@ -40,14 +40,14 @@ export default function CoursePage() {
         <div className="space-y-6">
           <div className="card flex items-center justify-between gap-4 p-5 sm:p-6">
             <div>
-              <h2 className="text-lg font-extrabold text-primary">Overall Progress</h2>
+              <h2 className="text-lg font-extrabold text-navy">Overall Progress</h2>
               <p className="text-sm text-muted">Based on materials read</p>
             </div>
             <ProgressRing value={progress} label={`${course.title} overall progress`} />
           </div>
 
           <div className="card p-5 sm:p-6">
-            <h2 className="mb-4 text-2xl text-primary">Course Weeks</h2>
+            <h2 className="mb-4 text-2xl text-navy">Course Weeks</h2>
             <ul className="space-y-2">
               {weeks.map((w) => {
                 const on = w.id === weekId
@@ -59,7 +59,7 @@ export default function CoursePage() {
                       aria-current={on ? 'true' : undefined}
                       title={w.is_locked ? 'Unlocks after you finish the previous week' : undefined}
                       className={`pressable flex w-full items-center justify-between rounded-pill px-4 py-3 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:active:scale-100 ${
-                        on ? 'bg-primary font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'bg-wash font-semibold text-primary hover:bg-mint-100'
+                        on ? 'bg-navy font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'bg-wash font-semibold text-navy hover:bg-sky-100'
                       }`}
                     >
                       Week {w.week_no}
@@ -74,15 +74,15 @@ export default function CoursePage() {
 
         {/* Right column */}
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-balance text-primary lg:text-[34px] lg:leading-tight">
+          <h2 className="text-2xl font-extrabold tracking-tight text-balance text-navy lg:text-[34px] lg:leading-tight">
             Week {week.week_no}: {week.title}
           </h2>
 
           <div className="card mt-5 p-4 sm:p-6">
             <div className="mb-4 flex items-center gap-3 px-1">
-              <ClipboardList className="size-6 text-primary" strokeWidth={1.75} aria-hidden="true" />
+              <ClipboardList className="size-6 text-navy" strokeWidth={1.75} aria-hidden="true" />
               <div>
-                <h3 className="text-lg font-extrabold text-primary">Course Content</h3>
+                <h3 className="text-lg font-extrabold text-navy">Course Content</h3>
                 <p className="text-sm text-muted">Materials and Assessments</p>
               </div>
             </div>
@@ -110,9 +110,9 @@ function ReadingRow({ material }) {
   const { isDone, toggleDone } = useProgress()
   const done = isDone(material.id)
   return (
-    <li className={`${rowBase} ${done ? 'border-mint bg-mint-50' : 'border-line'}`}>
+    <li className={`${rowBase} ${done ? 'border-sky bg-sky-50' : 'border-line'}`}>
       <div className="flex min-w-0 flex-1 items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-mint-200 text-primary-700">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sky-200 text-navy">
           <BookOpen className="size-5" strokeWidth={1.75} aria-hidden="true" />
         </span>
         <div className="min-w-0">
@@ -120,8 +120,8 @@ function ReadingRow({ material }) {
           <p className="text-xs text-muted">{material.meta}</p>
         </div>
       </div>
-      <label className="flex cursor-pointer items-center gap-2 self-end text-sm font-bold text-primary sm:self-auto">
-        <input type="checkbox" checked={done} onChange={() => toggleDone(material.id)} className="size-[18px] cursor-pointer accent-primary" />
+      <label className="flex cursor-pointer items-center gap-2 self-end text-sm font-bold text-navy sm:self-auto">
+        <input type="checkbox" checked={done} onChange={() => toggleDone(material.id)} className="size-[18px] cursor-pointer accent-navy" />
         Mark as done
       </label>
     </li>
@@ -132,21 +132,21 @@ function QuizRow({ quiz, onOpen }) {
   const { quizStatus } = useProgress()
   const s = quizStatus(quiz)
   return (
-    <li className={`${rowBase} ${s.completed ? 'border-mint bg-mint-50' : 'border-line'}`}>
+    <li className={`${rowBase} ${s.completed ? 'border-sky bg-sky-50' : 'border-line'}`}>
       <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lemon-100 text-ochre-700">
-          <ClipboardCheck className="size-5 fill-lemon" strokeWidth={1.75} aria-hidden="true" />
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sun-100 text-navy">
+          <ClipboardCheck className="size-5 fill-sun" strokeWidth={1.75} aria-hidden="true" />
         </span>
         <div className="min-w-0">
           <p className="font-bold text-ink">{quiz.title}</p>
           <div className="mt-1.5 flex flex-wrap gap-1.5">
             <span className={`${pill} border-line text-muted`}>Total: {quiz.total_points}</span>
             {s.best !== null && (
-              <span className={`${pill} border-transparent bg-mint-200 text-primary-700`}>
+              <span className={`${pill} border-transparent bg-sky-200 text-navy`}>
                 Score: {s.best}/{quiz.total_points}
               </span>
             )}
-            <span className={`${pill} border-transparent bg-mint-200 text-primary-700`}>
+            <span className={`${pill} border-transparent bg-sky-200 text-navy`}>
               Attempts: {s.used} / {quiz.max_attempts}
             </span>
           </div>
@@ -155,12 +155,12 @@ function QuizRow({ quiz, onOpen }) {
       <div className="flex items-center gap-2 self-end sm:self-auto">
         <button
           onClick={() => onOpen(quiz, s.canStart ? 'take' : 'review')}
-          className="pressable min-w-[88px] rounded-pill bg-primary px-5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
+          className="pressable min-w-[88px] rounded-pill bg-navy px-5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
         >
           {s.canStart ? (s.used ? 'Retake' : 'Start') : 'Review'}
         </button>
         {s.completed && (
-          <span className="grid size-8 place-items-center rounded-lg bg-lemon text-ochre-900" aria-label="Completed">
+          <span className="grid size-8 place-items-center rounded-lg bg-orange text-navy" aria-label="Completed">
             <Check className="size-4" strokeWidth={3} />
           </span>
         )}

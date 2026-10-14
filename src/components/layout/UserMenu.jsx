@@ -55,7 +55,7 @@ export default function UserMenu({ trigger, placement = 'down', align = 'right' 
                 onClick={() => setOpen(false)}
                 className="mt-1 flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-semibold text-ink transition-colors duration-150 hover:bg-wash"
               >
-                <User className="size-4 text-primary" aria-hidden="true" /> My profile
+                <User className="size-4 text-navy" aria-hidden="true" /> My profile
               </Link>
             )}
           </motion.div>

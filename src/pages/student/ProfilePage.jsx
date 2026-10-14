@@ -30,15 +30,15 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-extrabold text-primary sm:text-[32px]">Profile</h1>
+      <h1 className="text-3xl font-extrabold text-navy sm:text-[32px]">Profile</h1>
       <p className="mt-1 text-muted">Your account and learning summary</p>
 
       <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
         <section className="card overflow-hidden">
-          <div className="h-20 bg-linear-to-r from-primary to-primary-2" />
+          <div className="h-20 bg-linear-to-r from-navy to-primary" />
           <div className="-mt-10 px-6 pb-6">
-            <span className="grid size-20 place-items-center rounded-full border-4 border-surface bg-primary text-2xl font-black text-white">{initials}</span>
-            <h2 className="mt-3 text-xl font-extrabold text-primary">{me.full_name}</h2>
+            <span className="grid size-20 place-items-center rounded-full border-4 border-surface bg-navy text-2xl font-black text-white">{initials}</span>
+            <h2 className="mt-3 text-xl font-extrabold text-navy">{me.full_name}</h2>
             <p className="text-sm text-muted">{program.name}</p>
             <dl className="mt-5 divide-y divide-line border-t border-line text-sm">
               {facts.map(([k, v]) => (
@@ -56,18 +56,18 @@ export default function ProfilePage() {
             {stats.map(([label, value]) => (
               <div key={label} className="card p-5">
                 <p className="text-sm font-semibold text-muted">{label}</p>
-                <p className="mt-1 text-3xl font-black text-primary tabular-nums">{value}</p>
+                <p className="mt-1 text-3xl font-black text-navy tabular-nums">{value}</p>
               </div>
             ))}
           </section>
 
           <section className="card p-5 sm:p-6">
-            <h2 className="mb-4 text-lg font-extrabold text-primary">Enrolled courses</h2>
+            <h2 className="mb-4 text-lg font-extrabold text-navy">Enrolled courses</h2>
             <ul className="divide-y divide-line">
               {progress.map((c) => (
                 <li key={c.id}>
                   <Link to={`/student/courses/${c.id}`} className="-mx-2 flex items-center gap-4 rounded-lg px-2 py-3 transition-colors duration-150 hover-fine:bg-wash">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full border border-mint bg-surface">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full border border-sky bg-surface">
                       <CourseIcon name={c.icon} className="size-5 text-primary" strokeWidth={1.75} />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -76,7 +76,7 @@ export default function ProfilePage() {
                         <ProgressBar value={c.pct} label={`${c.title} progress`} />
                       </span>
                     </span>
-                    <span className="w-12 text-right text-sm font-extrabold text-primary tabular-nums">{c.pct}%</span>
+                    <span className="w-12 text-right text-sm font-extrabold text-navy tabular-nums">{c.pct}%</span>
                   </Link>
                 </li>
               ))}

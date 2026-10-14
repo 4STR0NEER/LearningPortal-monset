@@ -19,7 +19,7 @@ export default function StudentsPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-extrabold text-primary">Students Enrolled</h1>
+      <h1 className="text-3xl font-extrabold text-navy">Students Enrolled</h1>
       <p className="mt-1 text-muted">
         <span className="font-bold text-ink tabular-nums">{students.length}</span> confirmed enrollees across {programs.length} programs
       </p>
@@ -52,7 +52,7 @@ export default function StudentsPage() {
                   {s.student_no} · {YEAR[s.year_level - 1]} year
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-mint-200 px-2.5 py-0.5 text-xs font-bold text-primary-700">{getProgram(s.program_id).code}</span>
+              <span className="shrink-0 rounded-full bg-sky-200 px-2.5 py-0.5 text-xs font-bold text-navy">{getProgram(s.program_id).code}</span>
             </li>
           ))
         )}
@@ -78,14 +78,14 @@ export default function StudentsPage() {
               </tr>
             ) : (
               rows.map((s) => (
-                <tr key={s.id} className="transition-colors duration-150 hover-fine:bg-mint-50">
+                <tr key={s.id} className="transition-colors duration-150 hover-fine:bg-sky-50">
                   <th scope="row" className="px-5 py-3 text-left font-normal">
                     <span className="block font-bold text-ink">{s.full_name}</span>
                     <span className="block text-xs text-muted">{s.email}</span>
                   </th>
                   <td className="px-3 py-3 text-muted tabular-nums">{s.student_no}</td>
                   <td className="px-3 py-3">
-                    <span className="rounded-full bg-mint-200 px-2.5 py-0.5 text-xs font-bold text-primary-700">{getProgram(s.program_id).code}</span>
+                    <span className="rounded-full bg-sky-200 px-2.5 py-0.5 text-xs font-bold text-navy">{getProgram(s.program_id).code}</span>
                   </td>
                   <td className="px-3 py-3 text-ink">{YEAR[s.year_level - 1]} year</td>
                   <td className="px-5 py-3 text-muted tabular-nums">{formatDate(s.enrolled_at)}</td>

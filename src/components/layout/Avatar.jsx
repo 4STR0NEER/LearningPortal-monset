@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'motion/react'
 export default function Avatar({ initials, size = 'md' }) {
   const box = size === 'sm' ? 'size-9 text-xs' : 'size-11 text-sm'
   return (
-    <span className={`relative grid shrink-0 place-items-center rounded-full bg-primary font-bold text-white ${box}`}>
+    <span className={`relative grid shrink-0 place-items-center rounded-full bg-navy font-bold text-white ${box}`}>
       <AnimatePresence initial={false}>
         <motion.span
           key={initials}

@@ -13,7 +13,7 @@ export default function TopBar({ onToggleSidebar, drawerOpen }) {
         onClick={onToggleSidebar}
         aria-label="Toggle sidebar"
         aria-expanded={drawerOpen}
-        className="pressable -ml-2 grid size-10 place-items-center rounded-lg text-primary transition-colors duration-150 hover:bg-wash"
+        className="pressable -ml-2 grid size-10 place-items-center rounded-lg text-navy transition-colors duration-150 hover:bg-wash"
       >
         <PanelLeft className="size-5" strokeWidth={1.75} />
       </button>

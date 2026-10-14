@@ -3,91 +3,104 @@
 
 /*
   Design tokens. Every color, radius, shadow and curve the app uses lives here.
-  Tailwind v4 turns each --color-* into utilities (bg-primary, text-mint, ring-lemon...),
+  Tailwind v4 turns each --color-* into utilities (bg-navy, text-primary, fill-sun...),
   so components never need a hex value. Rebrand = edit this block.
+
+  Palette: Philippine beach. Prussian navy carries the brand weight, blue green is the
+  lively partner, sky is for soft surfaces, sun and orange are small, warm accents.
 
   `static` makes Tailwind emit every variable even if no class uses it, so non-Tailwind code
   (Recharts props, anime.js, inline SVG) can always read var(--color-*).
+  `--color-*: initial` removes Tailwind's default palette, so a stray `bg-blue-500` or
+  `text-teal-600` simply doesn't compile: every color has to come from this file.
 
   Contrast rules (WCAG AA, checked):
-  - White text: primary (6.4:1) or primary-700 (9:1). primary-2 is 4.1:1, so large text only (hero heading).
-  - On mint: text-primary on mint-50/100, text-primary-700 on mint-200. Never white.
-  - On lemon: text-ochre-800 (4.9:1) or ink. Never white. Lemon is never text on white (1.8:1).
-  - Ochre text on white: ochre-700 or darker. ochre-600 is for fills and chart bars only.
-  - muted text stays off mint-100 and darker (fails there); mint-50 is fine (4.6:1).
+  - White text: navy (13.9:1) or primary-700 (6.3:1). primary (#219EBC) is 3.1:1, so white on it
+    is for large/bold-large text only (the hero heading); buttons hover to primary-700.
+  - Sky, sun and orange are never under white text. Navy text on all three (7.7 / 7.9 / 5.6:1).
+  - Sun and orange are never text on white. Accent text uses orange-700+ (5.1:1); pending
+    badges are orange-800 on orange-100 (6.1:1).
+  - primary as text on white needs primary-700 (6.3:1); primary-500 is fine for icons and fills (3.1:1).
+  - muted text stays on white, page or sky-50 (4.7:1+); it fails on sky-100.
 */
 @theme static {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
   /* Palette scales. The step marked * is the exact client color. */
-  --color-primary-50: #f3f8f8;
-  --color-primary-100: #cbdfe1;
-  --color-primary-200: #a3c6ca;
-  --color-primary-300: #7badb2;
-  --color-primary-400: #53949b;
-  --color-primary-500: #2b7b84;
-  --color-primary-600: #0e6973; /* * deep teal */
-  --color-primary-700: #0b515a; /* hover / pressed on primary fills */
-  --color-primary-800: #073a40;
-  --color-primary-900: #042227;
+  --color-navy-50: #f2f5f6;
+  --color-navy-100: #d4dce0;
+  --color-navy-200: #b6c4ca;
+  --color-navy-300: #98abb4;
+  --color-navy-400: #7a929f;
+  --color-navy-500: #5c7a89;
+  --color-navy-600: #3e6173;
+  --color-navy-700: #20495d;
+  --color-navy-800: #023047; /* * Prussian blue */
+  --color-navy-900: #011b29;
 
-  --color-primary-2-50: #f3f9f9;
-  --color-primary-2-100: #c2e1e1;
-  --color-primary-2-200: #90caca;
-  --color-primary-2-300: #5fb2b2;
-  --color-primary-2-400: #2e9a9a;
-  --color-primary-2-500: #118c8c; /* * teal */
-  --color-primary-2-600: #0e7474;
-  --color-primary-2-700: #0b5c5c;
-  --color-primary-2-800: #084443;
-  --color-primary-2-900: #052c2b;
+  --color-primary-50: #f4fafc;
+  --color-primary-100: #c8e7ee;
+  --color-primary-200: #9bd3e1;
+  --color-primary-300: #6fc0d3;
+  --color-primary-400: #42adc6;
+  --color-primary-500: #219ebc; /* * blue green */
+  --color-primary-600: #1b839d;
+  --color-primary-700: #15687e; /* button hover, primary-colored text */
+  --color-primary-800: #0f4d5f;
+  --color-primary-900: #08323f;
 
-  --color-mint-50: #e9f3ef; /* surfaces: card tops, table headers, completed rows */
-  --color-mint-100: #d6e8e2; /* total column, hovers */
-  --color-mint-200: #c2ded4; /* pills */
-  --color-mint-300: #bad9ce; /* * pale mint: borders, glow */
-  --color-mint-400: #a2c7bb;
-  --color-mint-500: #8ab5a8;
-  --color-mint-600: #72a395;
-  --color-mint-700: #5a9183; /* chart series on white */
-  --color-mint-800: #427f70;
-  --color-mint-900: #2a6e5d;
+  --color-sky-50: #e8f4fa; /* surfaces: table headers, completed rows, sidebar */
+  --color-sky-100: #c4e3f2; /* course card tops, total column, hovers */
+  --color-sky-200: #9fd2ea; /* pills */
+  --color-sky-300: #8ecae6; /* * sky blue: borders, glow */
+  --color-sky-400: #7cb7d3;
+  --color-sky-500: #6aa3c0;
+  --color-sky-600: #5890ad; /* chart series on white (3.5:1) */
+  --color-sky-700: #467d9b;
+  --color-sky-800: #346a88;
+  --color-sky-900: #225675;
 
-  --color-lemon-50: #fefaec;
-  --color-lemon-100: #fae7ae; /* icon tiles */
-  --color-lemon-200: #f7d570;
-  --color-lemon-300: #f4c332;
-  --color-lemon-400: #f2bb16; /* * lemon */
-  --color-lemon-500: #d1a112;
-  --color-lemon-600: #b0860f;
-  --color-lemon-700: #906c0b;
-  --color-lemon-800: #6f5108;
-  --color-lemon-900: #4e3704;
+  --color-sun-50: #fffaed;
+  --color-sun-100: #ffe7ac; /* quiz icon tiles */
+  --color-sun-200: #ffd56a;
+  --color-sun-300: #ffc229;
+  --color-sun-400: #ffb703; /* * selective yellow */
+  --color-sun-500: #df9f03;
+  --color-sun-600: #be8702;
+  --color-sun-700: #9e6f02;
+  --color-sun-800: #7e5701;
+  --color-sun-900: #5d3e01;
 
-  --color-ochre-50: #fbf8f1;
-  --color-ochre-100: #f1e3c9; /* #2/#3 badges */
-  --color-ochre-200: #e6cea2;
-  --color-ochre-300: #dcba7b;
-  --color-ochre-400: #d1a553;
-  --color-ochre-500: #c7912c;
-  --color-ochre-600: #bf820f; /* * ochre */
-  --color-ochre-700: #93630b; /* icon strokes on light fills, text on white */
-  --color-ochre-800: #684507; /* text on lemon */
-  --color-ochre-900: #3c2603; /* lemon pressed text */
+  --color-orange-50: #fff8f0;
+  --color-orange-100: #fee0bd; /* pending badges */
+  --color-orange-200: #fdc78b;
+  --color-orange-300: #fcaf59;
+  --color-orange-400: #fc9726;
+  --color-orange-500: #fb8500; /* * UT orange */
+  --color-orange-600: #d36e00; /* chart bars on white (3.5:1) */
+  --color-orange-700: #ac5700; /* orange text on white */
+  --color-orange-800: #844000;
+  --color-orange-900: #5d2900;
 
   /* Role names: what components use day to day. Each points at its scale's client step. */
-  --color-primary: var(--color-primary-600);
-  --color-primary-2: var(--color-primary-2-500);
-  --color-mint: var(--color-mint-300);
-  --color-lemon: var(--color-lemon-400);
-  --color-ochre: var(--color-ochre-600);
+  --color-navy: var(--color-navy-800);
+  --color-primary: var(--color-primary-500);
+  --color-sky: var(--color-sky-300);
+  --color-sun: var(--color-sun-400);
+  --color-orange: var(--color-orange-500);
 
   /* Neutrals */
-  --color-page: #f6faf9; /* near white, faint teal */
+  --color-page: #f5f9fb; /* near white, faint cool blue */
   --color-surface: #ffffff;
-  --color-wash: var(--color-mint-50); /* pale panels */
-  --color-line: #dfe8e5; /* light grey, hint of mint */
-  --color-ink: #1f2d33; /* body text, slate */
-  --color-muted: #5f7074; /* secondary text, 5.2:1 on white (the #6B7C80 range dips under 4.5) */
-  --color-faint: #a8b0b2; /* matrix dashes, locked labels: neutral grey, decorative only */
+  --color-wash: var(--color-sky-50); /* pale panels */
+  --color-line: #dde8ee; /* light grey, hint of sky */
+  --color-ink: #14303d; /* body text, slate leaning Prussian */
+  --color-muted: #55707c; /* secondary text, 5.3:1 on white (the #64808C range is 4.2:1) */
+  --color-faint: #a9b1b5; /* matrix dashes, locked labels: neutral grey, decorative only */
 }
 
 @theme {
@@ -97,11 +110,11 @@
   --radius-card: 16px;
   --radius-pill: 10px;
 
-  /* Shadows are tinted with the primary token, so a rebrand re-tints them too. */
-  --shadow-card: 0 1px 2px color-mix(in srgb, var(--color-primary) 5%, transparent), 0 6px 20px -8px color-mix(in srgb, var(--color-primary) 12%, transparent);
-  --shadow-lift: 0 2px 4px color-mix(in srgb, var(--color-primary) 6%, transparent), 0 14px 30px -10px color-mix(in srgb, var(--color-primary) 20%, transparent);
-  --shadow-pop: 0 4px 10px color-mix(in srgb, var(--color-primary) 8%, transparent), 0 18px 40px -12px color-mix(in srgb, var(--color-primary) 25%, transparent);
-  --drop-shadow-seal: 0 8px 20px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  /* Shadows are tinted with the navy token, so a rebrand re-tints them too. */
+  --shadow-card: 0 1px 2px color-mix(in srgb, var(--color-navy) 5%, transparent), 0 6px 20px -8px color-mix(in srgb, var(--color-navy) 12%, transparent);
+  --shadow-lift: 0 2px 4px color-mix(in srgb, var(--color-navy) 6%, transparent), 0 14px 30px -10px color-mix(in srgb, var(--color-navy) 20%, transparent);
+  --shadow-pop: 0 4px 10px color-mix(in srgb, var(--color-navy) 8%, transparent), 0 18px 40px -12px color-mix(in srgb, var(--color-navy) 25%, transparent);
+  --drop-shadow-seal: 0 8px 20px color-mix(in srgb, var(--color-navy) 25%, transparent);
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -118,26 +131,26 @@
   }
 
   ::selection {
-    background: var(--color-mint-200);
-    color: var(--color-primary-700);
+    background: var(--color-sky-200);
+    color: var(--color-navy);
   }
 
-  /* Lemon ring with an ochre inner edge: reads as lemon, still clears 3:1 on white */
+  /* Sun ring with a navy inner edge: reads as yellow, still clears 3:1 on any background */
   :focus-visible {
-    outline: 2px solid var(--color-lemon);
+    outline: 2px solid var(--color-sun);
     outline-offset: 2px;
-    box-shadow: 0 0 0 2px var(--color-ochre);
+    box-shadow: 0 0 0 2px var(--color-navy);
   }
 
-  /* Text fields get a calm teal outline instead: you sit in them, the lemon ring is for jumping between things. */
+  /* Text fields get a calm blue green outline instead: you sit in them, the sun ring is for jumping between things. */
   :is(input:not([type='checkbox'], [type='radio']), select, textarea):focus-visible {
-    outline-color: var(--color-primary-2);
+    outline-color: var(--color-primary);
     box-shadow: none;
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-mint) transparent;
+    scrollbar-color: var(--color-sky) transparent;
   }
 
   button {

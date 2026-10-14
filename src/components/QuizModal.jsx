@@ -25,11 +25,11 @@ export default function QuizModal({ quiz, mode, open, session, onClose }) {
       {quiz && (
         <div className="card flex max-h-[calc(100dvh-32px)] flex-col shadow-pop">
           <header className="flex items-start gap-3 border-b border-line p-5 sm:p-6">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lemon-100 text-ochre-700">
-              <ClipboardCheck className="size-5 fill-lemon" strokeWidth={1.75} aria-hidden="true" />
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sun-100 text-navy">
+              <ClipboardCheck className="size-5 fill-sun" strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1">
-              <h2 id="quiz-title" className="text-lg leading-snug font-extrabold text-primary">{quiz.title}</h2>
+              <h2 id="quiz-title" className="text-lg leading-snug font-extrabold text-navy">{quiz.title}</h2>
               <p className="text-sm text-muted">{mode === 'review' ? 'Answer key' : `${quiz.total_points} points · ${POINTS_PER_QUESTION} per question`}</p>
             </div>
             <button onClick={onClose} aria-label="Close quiz" className="pressable -mt-1 -mr-2 grid size-9 place-items-center rounded-lg text-muted hover:bg-wash">
@@ -67,7 +67,7 @@ function Take({ quiz, onClose }) {
     return (
       <div className="p-6 text-center sm:p-8">
         <p className="text-sm font-semibold text-muted">Your score</p>
-        <p className="mt-1 text-6xl font-black text-primary tabular-nums">
+        <p className="mt-1 text-6xl font-black text-navy tabular-nums">
           {score}
           <span className="text-3xl text-muted">/{quiz.total_points}</span>
         </p>
@@ -78,12 +78,12 @@ function Take({ quiz, onClose }) {
               ? 'Not quite there. Review the reading and try again.'
               : 'That was your last attempt. You can still review the answer key.'}
         </p>
-        <p className="mt-4 inline-flex rounded-full border border-mint px-3 py-1 text-sm font-bold text-primary">
+        <p className="mt-4 inline-flex rounded-full border border-sky px-3 py-1 text-sm font-bold text-navy">
           Attempts: {status.used} / {quiz.max_attempts}
           {status.best > score ? ` · Best: ${status.best}` : ''}
         </p>
         <div className="mt-6">
-          <button onClick={onClose} className="pressable rounded-pill bg-primary px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700">
+          <button onClick={onClose} className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700">
             Back to course
           </button>
         </div>
@@ -100,7 +100,7 @@ function Take({ quiz, onClose }) {
           </p>
           <div className="flex flex-1 gap-1" aria-hidden="true">
             {questions.map((x, n) => (
-              <span key={x.id} className={`h-1.5 flex-1 rounded-full transition-colors duration-200 ${n <= i ? 'bg-primary-2' : 'bg-line'}`} />
+              <span key={x.id} className={`h-1.5 flex-1 rounded-full transition-colors duration-200 ${n <= i ? 'bg-primary' : 'bg-line'}`} />
             ))}
           </div>
         </div>
@@ -110,14 +110,14 @@ function Take({ quiz, onClose }) {
             {q.choices.map((choice, n) => (
               <label
                 key={choice}
-                className={`pressable flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-lemon ${picked === n ? 'border-primary bg-mint-50 text-primary' : 'border-line hover-fine:border-mint hover-fine:bg-wash'}`}
+                className={`pressable flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-sun ${picked === n ? 'border-navy bg-sky-50 text-navy' : 'border-line hover-fine:border-sky hover-fine:bg-wash'}`}
               >
                 <input
                   type="radio"
                   name={q.id}
                   checked={picked === n}
                   onChange={() => setAnswers((a) => Object.assign([...a], { [i]: n }))}
-                  className="size-4 accent-primary"
+                  className="size-4 accent-navy"
                 />
                 <span className="font-semibold">{choice}</span>
               </label>
@@ -129,14 +129,14 @@ function Take({ quiz, onClose }) {
         <button
           onClick={() => setI(i - 1)}
           disabled={i === 0}
-          className="pressable rounded-pill px-4 py-2.5 font-bold text-primary transition-colors duration-150 hover:bg-wash disabled:pointer-events-none disabled:opacity-40"
+          className="pressable rounded-pill px-4 py-2.5 font-bold text-navy transition-colors duration-150 hover:bg-wash disabled:pointer-events-none disabled:opacity-40"
         >
           Back
         </button>
         <button
           onClick={next}
           disabled={picked === undefined}
-          className="pressable rounded-pill bg-primary px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700 disabled:pointer-events-none disabled:opacity-40"
+          className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 hover:bg-primary-700 disabled:pointer-events-none disabled:opacity-40"
         >
           {last ? 'Submit' : 'Next'}
         </button>
@@ -157,7 +157,7 @@ function Review({ quiz }) {
             {q.choices.map((choice, c) => {
               const right = c === q.answer_index
               return (
-                <li key={choice} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] ${right ? 'bg-mint-100 font-bold text-primary' : 'text-muted'}`}>
+                <li key={choice} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-[15px] ${right ? 'bg-sky-100 font-bold text-navy' : 'text-muted'}`}>
                   {right ? <Check className="size-4 shrink-0" aria-label="Correct answer" /> : <span className="size-4 shrink-0" />}
                   {choice}
                 </li>

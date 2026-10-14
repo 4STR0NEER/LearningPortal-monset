@@ -32,7 +32,7 @@ export function ToastProvider({ children }) {
               transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
               className="pointer-events-auto flex items-center gap-2.5 rounded-pill bg-ink px-4 py-3 text-sm font-semibold text-white shadow-pop"
             >
-              <Info className="size-4 shrink-0 text-lemon" aria-hidden="true" />
+              <Info className="size-4 shrink-0 text-sun" aria-hidden="true" />
               {msg.text}
             </motion.p>
           )}

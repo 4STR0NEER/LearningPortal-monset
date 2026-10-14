@@ -5,7 +5,7 @@ export function ProgressBar({ value, label }) {
   return (
     <div role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} aria-label={label} className="h-1.5 overflow-hidden rounded-full bg-line">
       <div
-        className="h-full origin-left rounded-full bg-primary-2 transition-transform duration-500 ease-out motion-reduce:transition-none"
+        className="h-full origin-left rounded-full bg-primary transition-transform duration-500 ease-out motion-reduce:transition-none"
         style={{ transform: `scaleX(${value / 100})` }}
       />
     </div>
@@ -31,7 +31,7 @@ export function ProgressRing({ value, size = 56, label }) {
           className="stroke-primary transition-[stroke-dashoffset] duration-500 ease-out motion-reduce:transition-none"
         />
       </svg>
-      <span className="text-sm font-extrabold text-primary tabular-nums">{value}%</span>
+      <span className="text-sm font-extrabold text-navy tabular-nums">{value}%</span>
     </div>
   )
 }

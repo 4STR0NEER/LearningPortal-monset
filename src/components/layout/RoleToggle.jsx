@@ -23,7 +23,7 @@ export default function RoleToggle({ className = '' }) {
             role="radio"
             aria-checked={active}
             onClick={() => setRole(o.value)}
-            className={`pressable relative rounded-full px-3.5 py-1.5 text-sm font-bold transition-colors duration-150 ${active ? 'text-primary' : 'text-muted hover:text-ink'}`}
+            className={`pressable relative rounded-full px-3.5 py-1.5 text-sm font-bold transition-colors duration-150 ${active ? 'text-navy' : 'text-muted hover:text-ink'}`}
           >
             {active && (
               <motion.span

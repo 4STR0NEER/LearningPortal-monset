@@ -24,7 +24,7 @@ export default function TeacherDashboard() {
   const { students, pendingCount } = useAdmin()
   const stats = [
     { label: 'Total Students', value: students.length, caption: 'Confirmed Enrollees', icon: Users },
-    { label: 'Pending Applicants', value: pendingCount, caption: 'Awaiting Review', icon: UserPlus },
+    { label: 'Pending Applicants', value: pendingCount, caption: 'Awaiting Review', icon: UserPlus, alert: pendingCount > 0 },
     { label: 'Total Courses', value: courses.length, caption: 'Active Courses', icon: GraduationCap },
   ]
 
@@ -39,15 +39,19 @@ export default function TeacherDashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-extrabold text-primary">Admin Dashboard</h1>
+      <h1 className="text-3xl font-extrabold text-navy">Admin Dashboard</h1>
       <p className="mt-1 text-muted">Detailed Enrollment Statistics</p>
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-3 sm:gap-5">
         {stats.map((s) => (
-          <li key={s.label} className="rounded-card bg-primary p-5 text-white shadow-card sm:p-6">
+          <li key={s.label} className="rounded-card bg-navy p-5 text-white shadow-card sm:p-6">
             <div className="flex items-start justify-between gap-3">
               <p className="text-sm font-semibold">{s.label}</p>
-              <s.icon className="size-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <span className="relative shrink-0">
+                <s.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                {/* Orange dot: there is something waiting for the teacher. */}
+                {s.alert && <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-orange ring-2 ring-navy" aria-hidden="true" />}
+              </span>
             </div>
             <p className="mt-2 text-[32px] leading-none font-extrabold tabular-nums sm:mt-3 sm:text-[40px]">
               <CountUp value={s.value} />
@@ -70,10 +74,10 @@ export default function TeacherDashboard() {
               aria-controls={`panel-${t.id}`}
               tabIndex={on ? 0 : -1}
               onClick={() => setTab(t.id)}
-              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-white' : 'text-ink hover-fine:text-primary'}`}
+              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-white' : 'text-ink hover-fine:text-navy'}`}
             >
               {/* One shared layoutId: Motion slides this pill from the old tab to the new one. */}
-              {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-primary" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
+              {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-navy" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
               <span className="relative">{t.label}</span>
             </button>
           )
@@ -91,7 +95,7 @@ export default function TeacherDashboard() {
         className="mt-6"
       >
         <header className="mb-5 flex items-center gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-full border border-mint bg-surface text-primary">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full border border-sky bg-surface text-navy">
             <current.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
           </span>
           <div>
@@ -155,7 +159,7 @@ function ProgressMatrix() {
                 <span className="block text-xs font-normal text-muted">({enrolledIn(p.id)} enrolled)</span>
               </th>
             ))}
-            <th scope="col" className="bg-mint-100 px-5 py-4 text-center font-extrabold text-primary">Total</th>
+            <th scope="col" className="bg-sky-100 px-5 py-4 text-center font-extrabold text-navy">Total</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-line">
@@ -167,18 +171,18 @@ function ProgressMatrix() {
             </tr>
           ) : (
             rows.map(({ course, cells, total }) => (
-              <tr key={course.id} className="bg-surface transition-colors duration-150 hover-fine:bg-mint-50">
+              <tr key={course.id} className="bg-surface transition-colors duration-150 hover-fine:bg-sky-50">
                 <th scope="row" className="sticky left-0 z-10 bg-inherit px-5 py-3.5 text-left font-semibold text-ink max-sm:min-w-40">{course.title}</th>
                 {cells.map((n, i) => (
                   <td key={programs[i].id} className="px-3 py-3.5 text-center">
                     {n ? (
-                      <span className="inline-grid min-w-8 place-items-center rounded-pill bg-mint-200 px-2 py-0.5 font-extrabold text-primary-700 tabular-nums">{n}</span>
+                      <span className="inline-grid min-w-8 place-items-center rounded-pill bg-sky-200 px-2 py-0.5 font-extrabold text-navy tabular-nums">{n}</span>
                     ) : (
                       <span className="text-faint" aria-label="none">-</span>
                     )}
                   </td>
                 ))}
-                <td className="bg-mint-100 px-5 py-3.5 text-center font-extrabold text-primary tabular-nums">{total}</td>
+                <td className="bg-sky-100 px-5 py-3.5 text-center font-extrabold text-navy tabular-nums">{total}</td>
               </tr>
             ))
           )}
@@ -189,9 +193,9 @@ function ProgressMatrix() {
 }
 
 const rankBadge = {
-  1: 'bg-lemon text-ochre-800',
-  2: 'bg-ochre-100 text-ochre-800 ring-1 ring-ochre-300',
-  3: 'bg-ochre-100 text-ochre-800 ring-1 ring-ochre-300',
+  1: 'bg-sun text-navy',
+  2: 'bg-orange text-navy',
+  3: 'bg-orange text-navy',
 }
 
 function TopScorers() {
@@ -203,7 +207,7 @@ function TopScorers() {
             <span className="sr-only">Rank </span>
             {s.rank}
           </span>
-          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-mint-200 text-sm font-bold text-primary-700" aria-hidden="true">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-sky-200 text-sm font-bold text-navy" aria-hidden="true">
             {s.initials}
           </span>
           <div className="min-w-0 flex-1">
@@ -212,7 +216,7 @@ function TopScorers() {
               {getProgram(s.program_id).code} · {getCourse(s.course_id).title}
             </p>
           </div>
-          <p className="shrink-0 text-lg font-extrabold text-primary tabular-nums">{s.score_pct}%</p>
+          <p className="shrink-0 text-lg font-extrabold text-navy tabular-nums">{s.score_pct}%</p>
         </li>
       ))}
     </ol>

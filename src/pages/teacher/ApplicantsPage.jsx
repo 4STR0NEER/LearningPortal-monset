@@ -7,8 +7,8 @@ import { useToast } from '../../components/Toast'
 import SearchField, { selectClass } from '../../components/teacher/SearchField'
 
 const statusPill = {
-  pending: 'bg-lemon-100 text-ochre-800',
-  approved: 'bg-mint-200 text-primary-700',
+  pending: 'bg-orange-100 text-orange-800',
+  approved: 'bg-sky-200 text-navy',
   declined: 'bg-wash text-muted',
 }
 const statusOrder = { pending: 0, approved: 1, declined: 2 }
@@ -35,7 +35,7 @@ export default function ApplicantsPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-extrabold text-primary">Applicants</h1>
+      <h1 className="text-3xl font-extrabold text-navy">Applicants</h1>
       <p className="mt-1 text-muted">
         <span className="font-bold text-ink tabular-nums">{pendingCount}</span> awaiting review
       </p>
@@ -98,7 +98,7 @@ export default function ApplicantsPage() {
               </tr>
             ) : (
               rows.map((a) => (
-                <tr key={a.id} className="transition-colors duration-150 hover-fine:bg-mint-50">
+                <tr key={a.id} className="transition-colors duration-150 hover-fine:bg-sky-50">
                   <th scope="row" className="px-5 py-3 text-left font-normal">
                     <span className="block font-bold text-ink">{a.full_name}</span>
                     <span className="block text-xs text-muted">{a.email}</span>
@@ -129,13 +129,13 @@ function Actions({ applicant, onDecide, className = 'justify-end' }) {
     <div className={`flex gap-2 ${className}`}>
       <button
         onClick={() => onDecide(applicant, 'approved')}
-        className="pressable inline-flex items-center gap-1.5 rounded-pill bg-primary px-3.5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
+        className="pressable inline-flex items-center gap-1.5 rounded-pill bg-navy px-3.5 py-2 text-sm font-bold text-white transition-colors duration-150 hover:bg-primary-700"
       >
         <Check className="size-4" strokeWidth={2.5} aria-hidden="true" /> Approve
       </button>
       <button
         onClick={() => onDecide(applicant, 'declined')}
-        className="pressable inline-flex items-center gap-1.5 rounded-pill border border-line px-3.5 py-2 text-sm font-bold text-muted transition-colors duration-150 hover:border-mint hover:bg-wash hover:text-ink"
+        className="pressable inline-flex items-center gap-1.5 rounded-pill border border-line px-3.5 py-2 text-sm font-bold text-muted transition-colors duration-150 hover:border-sky hover:bg-wash hover:text-ink"
       >
         <X className="size-4" strokeWidth={2.5} aria-hidden="true" /> Decline
       </button>
