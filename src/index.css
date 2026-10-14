@@ -1,0 +1,158 @@
+@import '@fontsource-variable/nunito-sans/wdth.css';
+@import 'tailwindcss';
+
+/*
+  Design tokens. Every color, radius, shadow and curve the app uses lives here.
+  Tailwind v4 turns each --color-* into utilities (bg-primary, text-mint, ring-lemon...),
+  so components never need a hex value. Rebrand = edit this block.
+*/
+@theme {
+  --color-primary: #0e6973;
+  --color-primary-2: #118c8c;
+  --color-mint: #bad9ce;
+  --color-lemon: #f2bb16;
+  --color-ochre: #bf820f;
+  --color-mint-strong: #4f9a85; /* mint dark enough to read as a chart series on white (3.4:1) */
+  --color-ochre-ink: #5c3d05; /* text on lemon or pale ochre fills (5.8:1 on lemon) */
+
+  --color-page: #f5f9f8;
+  --color-surface: #ffffff;
+  --color-wash: #eef5f3; /* pale panels: card tops, table headers */
+  --color-line: #e1ebe8;
+  --color-ink: #1f3236; /* body text, slate with a teal lean */
+  --color-muted: #5a6b6f; /* secondary text, 5.5:1 on white */
+  --color-faint: #9aabaf; /* dashes, locked labels: decorative only */
+
+  --font-sans: 'Nunito Sans Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 16px;
+  --radius-pill: 10px;
+
+  --shadow-card: 0 1px 2px rgb(14 105 115 / 0.05), 0 6px 20px -8px rgb(14 105 115 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(14 105 115 / 0.06), 0 14px 30px -10px rgb(14 105 115 / 0.2);
+  --shadow-pop: 0 4px 10px rgb(14 105 115 / 0.08), 0 18px 40px -12px rgb(14 105 115 / 0.25);
+  --drop-shadow-seal: 0 8px 20px rgb(14 105 115 / 0.25);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: var(--color-mint);
+    color: var(--color-primary);
+  }
+
+  /* Lemon ring with an ochre inner edge: reads as lemon, still clears 3:1 on white */
+  :focus-visible {
+    outline: 2px solid var(--color-lemon);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-ochre);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-mint) transparent;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Every pressable thing gets the same quiet press. Nothing more on frequent clicks. */
+  .pressable {
+    transition: transform 140ms var(--ease-out);
+  }
+  .pressable:active {
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pressable:active {
+    transform: none;
+  }
+}
+
+/* Hover only where a real mouse exists: touch screens fire :hover on tap and it sticks. */
+@custom-variant hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+/*
+  Native <dialog> modal: the browser gives us focus trapping, Escape to close and inert background.
+  @starting-style animates the open; allow-discrete lets the close fade before display:none lands.
+*/
+@layer components {
+  .modal {
+    margin: auto;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    max-width: min(640px, calc(100vw - 32px));
+    width: 100%;
+    max-height: calc(100dvh - 32px);
+    opacity: 0;
+    transform: scale(0.97);
+    transition:
+      opacity 160ms var(--ease-out),
+      transform 160ms var(--ease-out),
+      overlay 160ms allow-discrete,
+      display 160ms allow-discrete;
+  }
+  .modal[open] {
+    opacity: 1;
+    transform: scale(1);
+    transition-duration: 220ms;
+  }
+  @starting-style {
+    .modal[open] {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+  .modal::backdrop {
+    background: transparent;
+    transition:
+      background 220ms var(--ease-out),
+      overlay 220ms allow-discrete,
+      display 220ms allow-discrete;
+  }
+  .modal[open]::backdrop {
+    background: color-mix(in oklab, var(--color-ink) 40%, transparent);
+  }
+  @starting-style {
+    .modal[open]::backdrop {
+      background: transparent;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal,
+  .modal[open] {
+    transform: none;
+  }
+}

@@ -1,0 +1,214 @@
+import { useLayoutEffect, useRef, useState } from 'react'
+import { motion } from 'motion/react'
+import { animate } from 'animejs'
+import { BarChart3, CircleCheckBig, GraduationCap, Trophy, UserPlus, Users } from 'lucide-react'
+import { courses, getCourse } from '../../data/courses'
+import { getProgram, programs } from '../../data/students'
+import { PENDING_APPLICANTS, matrixRows, program_enrollment, top_scorers, totalStudents } from '../../data/matrix'
+import CompletionCharts from '../../components/teacher/CompletionCharts'
+
+const stats = [
+  { label: 'Total Students', value: totalStudents, caption: 'Confirmed Enrollees', icon: Users },
+  { label: 'Pending Applicants', value: PENDING_APPLICANTS, caption: 'Awaiting Review', icon: UserPlus },
+  { label: 'Total Courses', value: courses.length, caption: 'Active Courses', icon: GraduationCap },
+]
+
+// Each tab owns its header copy and body. The dashboard renders the header the same way for all three.
+const tabs = [
+  { id: 'activity', label: 'Program & Course Activity', icon: CircleCheckBig, title: 'Course Progress Matrix', subtitle: 'Number of students with active progress per program', Body: ProgressMatrix },
+  { id: 'mastery', label: 'Completion & Mastery', icon: BarChart3, title: 'Completion & Mastery', subtitle: 'Average completion and mastery level per course', Body: CompletionCharts },
+  { id: 'scorers', label: 'Top Scorers', icon: Trophy, title: 'Top Scorers', subtitle: 'Highest average quiz scores across all courses', Body: TopScorers },
+]
+
+export default function TeacherDashboard() {
+  const [tab, setTab] = useState(tabs[0].id)
+  const tabRefs = useRef({})
+  const current = tabs.find((t) => t.id === tab)
+
+  // Arrow keys move between tabs (the WAI-ARIA tabs pattern): one Tab stop for the whole group.
+  const onKeyDown = (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key]
+    if (!step) return
+    const i = (tabs.findIndex((t) => t.id === tab) + step + tabs.length) % tabs.length
+    setTab(tabs[i].id)
+    tabRefs.current[tabs[i].id]?.focus()
+  }
+
+  return (
+    <div>
+      <h1 className="text-3xl font-extrabold text-primary">Admin Dashboard</h1>
+      <p className="mt-1 text-muted">Detailed Enrollment Statistics</p>
+
+      <ul className="mt-6 grid gap-5 sm:grid-cols-3">
+        {stats.map((s) => (
+          <li key={s.label} className="rounded-card bg-primary p-6 text-white shadow-card">
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-sm font-semibold">{s.label}</p>
+              <s.icon className="size-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+            </div>
+            <p className="mt-3 text-[40px] leading-none font-extrabold tabular-nums">
+              <CountUp value={s.value} />
+            </p>
+            <p className="mt-2 text-sm text-white/80">{s.caption}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div role="tablist" aria-label="Dashboard views" onKeyDown={onKeyDown} className="mt-8 flex max-w-full gap-1 overflow-x-auto rounded-card border border-line bg-surface p-1.5">
+        {tabs.map((t) => {
+          const on = t.id === tab
+          return (
+            <button
+              key={t.id}
+              ref={(el) => (tabRefs.current[t.id] = el)}
+              role="tab"
+              id={`tab-${t.id}`}
+              aria-selected={on}
+              aria-controls={`panel-${t.id}`}
+              tabIndex={on ? 0 : -1}
+              onClick={() => setTab(t.id)}
+              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-sm font-bold whitespace-nowrap transition-colors duration-150 ${on ? 'text-white' : 'text-ink hover-fine:text-primary'}`}
+            >
+              {/* One shared layoutId: Motion slides this pill from the old tab to the new one. */}
+              {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-primary" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
+              <span className="relative">{t.label}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      <motion.section
+        key={tab}
+        role="tabpanel"
+        id={`panel-${tab}`}
+        aria-labelledby={`tab-${tab}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.18 }}
+        className="mt-6"
+      >
+        <header className="mb-5 flex items-center gap-3">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full border border-mint bg-surface text-primary">
+            <current.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+          </span>
+          <div>
+            <h2 className="text-xl font-extrabold text-ink">{current.title}</h2>
+            <p className="text-sm text-muted">{current.subtitle}</p>
+          </div>
+        </header>
+        <current.Body />
+      </motion.section>
+    </div>
+  )
+}
+
+// Counts from whatever is on screen to `value` with anime.js. Starts from the current number,
+// so when Phase 5 changes the pending count it ticks from 73 to 72 instead of restarting at 0.
+function CountUp({ value }) {
+  const ref = useRef(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = value
+      return
+    }
+    const counter = { n: Number(el.dataset.shown ?? 0) }
+    const anim = animate(counter, {
+      n: value,
+      duration: 800,
+      ease: 'out(4)',
+      onUpdate: () => {
+        el.textContent = Math.round(counter.n)
+        el.dataset.shown = Math.round(counter.n)
+      },
+    })
+    return () => anim.pause()
+  }, [value])
+  return (
+    <>
+      <span ref={ref} aria-hidden="true">0</span>
+      <span className="sr-only">{value}</span>
+    </>
+  )
+}
+
+function ProgressMatrix() {
+  const rows = matrixRows()
+  const empty = rows.every((r) => r.total === 0)
+  const enrolled = (programId) => program_enrollment.find((p) => p.program_id === programId)?.enrolled ?? 0
+
+  return (
+    <div className="card overflow-x-auto">
+      <table className="w-full min-w-[860px] text-sm">
+        <thead className="bg-wash">
+          <tr>
+            <th scope="col" className="px-5 py-4 text-left font-extrabold text-ink">Course Name</th>
+            {programs.map((p) => (
+              <th key={p.id} scope="col" className="px-3 py-4 text-center font-extrabold text-ink">
+                {p.code}
+                <span className="block text-xs font-normal text-muted">({enrolled(p.id)} enrolled)</span>
+              </th>
+            ))}
+            <th scope="col" className="bg-mint/30 px-5 py-4 text-center font-extrabold text-primary">Total</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-line">
+          {empty ? (
+            <tr>
+              <td colSpan={programs.length + 2} className="px-5 py-14 text-center text-muted">
+                No course progress data available.
+              </td>
+            </tr>
+          ) : (
+            rows.map(({ course, cells, total }) => (
+              <tr key={course.id} className="transition-colors duration-150 hover-fine:bg-mint/15">
+                <th scope="row" className="px-5 py-3.5 text-left font-semibold text-ink">{course.title}</th>
+                {cells.map((n, i) => (
+                  <td key={programs[i].id} className="px-3 py-3.5 text-center">
+                    {n ? (
+                      <span className="inline-grid min-w-8 place-items-center rounded-pill bg-mint/60 px-2 py-0.5 font-extrabold text-ink tabular-nums">{n}</span>
+                    ) : (
+                      <span className="text-faint" aria-label="none">-</span>
+                    )}
+                  </td>
+                ))}
+                <td className="bg-mint/30 px-5 py-3.5 text-center font-extrabold text-primary tabular-nums">{total}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+const rankBadge = {
+  1: 'bg-lemon text-ochre-ink',
+  2: 'bg-ochre/15 text-ochre-ink ring-1 ring-ochre/50',
+  3: 'bg-ochre/15 text-ochre-ink ring-1 ring-ochre/50',
+}
+
+function TopScorers() {
+  return (
+    <ol className="card divide-y divide-line">
+      {top_scorers.map((s) => (
+        <li key={s.rank} className="flex items-center gap-4 px-5 py-3.5">
+          <span className={`grid size-8 shrink-0 place-items-center rounded-full text-sm font-extrabold tabular-nums ${rankBadge[s.rank] ?? 'bg-wash text-muted'}`}>
+            <span className="sr-only">Rank </span>
+            {s.rank}
+          </span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-mint/60 text-sm font-bold text-primary" aria-hidden="true">
+            {s.initials}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-bold text-ink">{s.student_name}</p>
+            <p className="truncate text-sm text-muted">
+              {getProgram(s.program_id).code} · {getCourse(s.course_id).title}
+            </p>
+          </div>
+          <p className="shrink-0 text-lg font-extrabold text-primary tabular-nums">{s.score_pct}%</p>
+        </li>
+      ))}
+    </ol>
+  )
+}

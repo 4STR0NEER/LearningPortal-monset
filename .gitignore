@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+*.local
+# real client/student data never goes in git
+resources/private/
+
+# local knowledge graph (regenerate with /graphify)
+graphify-out/
