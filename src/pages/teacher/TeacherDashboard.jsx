@@ -46,19 +46,19 @@ export default function TeacherDashboard() {
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-3 sm:gap-5">
         {stats.map((s) => (
-          <li key={s.label} className="rounded-card bg-navy p-5 text-white shadow-card sm:p-6">
+          <li key={s.label} className="rounded-card bg-sun p-5 text-navy shadow-card sm:p-6">
             <div className="flex items-start justify-between gap-3">
               <p className="text-sm font-semibold">{s.label}</p>
               <span className="relative shrink-0">
                 <s.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                 {/* Orange dot: there is something waiting for the teacher. */}
-                {s.alert && <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-orange ring-2 ring-navy" aria-hidden="true" />}
+                {s.alert && <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-navy ring-2 ring-sun" aria-hidden="true" />}
               </span>
             </div>
             <p className="mt-2 text-[32px] leading-none font-extrabold tabular-nums sm:mt-3 sm:text-[40px]">
               <CountUp value={s.value} />
             </p>
-            <p className="mt-2 text-sm text-white/80">{s.caption}</p>
+            <p className="mt-2 text-sm text-navy/80">{s.caption}</p>
           </li>
         ))}
       </ul>
@@ -76,10 +76,10 @@ export default function TeacherDashboard() {
               aria-controls={`panel-${t.id}`}
               tabIndex={on ? 0 : -1}
               onClick={() => setTab(t.id)}
-              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-white' : 'wipe-soft text-ink hover-fine:text-navy'}`}
+              className={`pressable relative shrink-0 rounded-pill px-4 py-2.5 text-left text-sm font-bold whitespace-nowrap sm:text-center transition-colors duration-150 ${on ? 'text-navy' : 'wipe-soft text-ink hover-fine:text-navy'}`}
             >
               {/* One shared layoutId: Motion slides this pill from the old tab to the new one. */}
-              {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-navy" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
+              {on && <motion.span layoutId="dashboard-tab" className="absolute inset-0 rounded-pill bg-sun" transition={{ type: 'spring', duration: 0.3, bounce: 0 }} />}
               <span className="relative">{t.label}</span>
             </button>
           )
@@ -177,7 +177,7 @@ function ProgressMatrix() {
                 <span className="block text-xs font-normal text-muted">({enrolledIn(p.id)} enrolled)</span>
               </th>
             ))}
-            <th scope="col" className="bg-sky-100 px-5 py-4 text-center font-extrabold text-navy">Total</th>
+            <th scope="col" className="bg-sun-100 px-5 py-4 text-center font-extrabold text-navy">Total</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-line">
@@ -200,7 +200,7 @@ function ProgressMatrix() {
                     )}
                   </td>
                 ))}
-                <td className="bg-sky-100 px-5 py-3.5 text-center font-extrabold text-navy tabular-nums">{total}</td>
+                <td className="bg-sun-100 px-5 py-3.5 text-center font-extrabold text-navy tabular-nums">{total}</td>
               </tr>
             ))
           )}
@@ -212,8 +212,8 @@ function ProgressMatrix() {
 
 const rankBadge = {
   1: 'bg-sun text-navy',
-  2: 'bg-orange text-navy',
-  3: 'bg-orange text-navy',
+  2: 'bg-sky-200 text-navy',
+  3: 'bg-sky-200 text-navy',
 }
 
 function TopScorers() {

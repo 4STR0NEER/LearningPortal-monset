@@ -35,9 +35,9 @@ export default function ProfilePage() {
 
       <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
         <section className="card overflow-hidden">
-          <div className="h-20 bg-navy" />
+          <div className="h-20 bg-sun" />
           <div className="-mt-10 px-6 pb-6">
-            <span className="grid size-20 place-items-center rounded-full border-4 border-surface bg-navy text-2xl font-black text-white">{initials}</span>
+            <span className="grid size-20 place-items-center rounded-full border-4 border-surface bg-sun text-2xl font-black text-navy">{initials}</span>
             <h2 className="mt-3 text-xl font-extrabold text-navy">{me.full_name}</h2>
             <p className="text-sm text-muted">{program.name}</p>
             <dl className="mt-5 divide-y divide-line border-t border-line text-sm">

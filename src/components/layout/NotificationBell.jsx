@@ -49,7 +49,7 @@ export default function NotificationBell() {
       >
         <Bell className="size-5" strokeWidth={1.75} aria-hidden="true" />
         {unread > 0 && (
-          <span className="absolute top-1 right-1 grid h-4 min-w-4 place-items-center rounded-full bg-orange px-1 text-[10px] leading-none font-extrabold text-navy tabular-nums ring-2 ring-surface" aria-hidden="true">
+          <span className="absolute top-1 right-1 grid h-4 min-w-4 place-items-center rounded-full bg-navy px-1 text-[10px] leading-none font-extrabold text-sun tabular-nums ring-2 ring-surface" aria-hidden="true">
             {unread}
           </span>
         )}

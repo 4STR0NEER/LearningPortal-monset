@@ -30,9 +30,9 @@ export default function CoursePage() {
       <h1 className="mt-4 text-4xl font-black tracking-tight text-balance text-navy lg:text-[52px] lg:leading-[1.05]">{course.title}</h1>
       <p className="mt-2 text-lg text-muted lg:text-2xl">{course.description}</p>
 
-      <section className="mt-7 rounded-[18px] bg-navy px-6 py-5 text-white shadow-card sm:px-8 sm:py-6">
+      <section className="mt-7 rounded-[18px] bg-sun px-6 py-5 text-navy shadow-card sm:px-8 sm:py-6">
         <h2 className="text-lg font-extrabold">General Instruction</h2>
-        <p className="mt-1 text-white/90">Select a topic from the left sidebar to load its materials. Mark materials as done to track progress.</p>
+        <p className="mt-1 text-navy/80">Select a topic from the left sidebar to load its materials. Mark materials as done to track progress.</p>
       </section>
 
       <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,35fr)_minmax(0,65fr)]">
@@ -59,7 +59,7 @@ export default function CoursePage() {
                       aria-current={on ? 'true' : undefined}
                       title={w.is_locked ? 'Unlocks after you finish the previous week' : undefined}
                       className={`pressable flex w-full items-center justify-between rounded-pill px-4 py-3 text-left transition-colors duration-150 disabled:cursor-not-allowed disabled:active:scale-100 ${
-                        on ? 'bg-navy font-extrabold text-white shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'wipe-soft bg-wash font-semibold text-navy'
+                        on ? 'bg-sun font-extrabold text-navy shadow-card' : w.is_locked ? 'bg-wash font-semibold text-faint' : 'wipe-soft bg-wash font-semibold text-navy'
                       }`}
                     >
                       Week {w.week_no}
@@ -134,8 +134,8 @@ function QuizRow({ quiz, onOpen }) {
   return (
     <li className={`${rowBase} ${s.completed ? 'border-sky bg-sky-50' : 'border-line'}`}>
       <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sun-100 text-navy">
-          <ClipboardCheck className="size-5 fill-sun" strokeWidth={1.75} aria-hidden="true" />
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sky-100 text-navy">
+          <ClipboardCheck className="size-5 fill-sky" strokeWidth={1.75} aria-hidden="true" />
         </span>
         <div className="min-w-0">
           <p className="font-bold text-ink">{quiz.title}</p>
@@ -155,12 +155,12 @@ function QuizRow({ quiz, onOpen }) {
       <div className="flex items-center gap-2 self-end sm:self-auto">
         <button
           onClick={() => onOpen(quiz, s.canStart ? 'take' : 'review')}
-          className="pressable min-w-[88px] rounded-pill bg-navy px-5 py-2 text-sm font-bold text-white transition-colors duration-150 wipe"
+          className="pressable min-w-[88px] rounded-pill bg-sun px-5 py-2 text-sm font-bold text-navy transition-colors duration-150 wipe"
         >
           {s.canStart ? (s.used ? 'Retake' : 'Start') : 'Review'}
         </button>
         {s.completed && (
-          <span className="grid size-8 place-items-center rounded-lg bg-orange text-navy" aria-label="Completed">
+          <span className="grid size-8 place-items-center rounded-lg bg-navy text-sun" aria-label="Completed">
             <Check className="size-4" strokeWidth={3} />
           </span>
         )}

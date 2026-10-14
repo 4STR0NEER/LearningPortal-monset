@@ -27,7 +27,7 @@ export default function ReportsPage() {
         </div>
         <button
           onClick={() => toast('Export to PDF and Excel is coming soon')}
-          className="pressable inline-flex items-center gap-2 self-start rounded-pill bg-navy px-5 py-2.5 text-sm font-bold text-white transition-colors duration-150 wipe sm:self-auto"
+          className="pressable inline-flex items-center gap-2 self-start rounded-pill bg-sun px-5 py-2.5 text-sm font-bold text-navy transition-colors duration-150 wipe sm:self-auto"
         >
           <Download className="size-4" aria-hidden="true" /> Export
         </button>

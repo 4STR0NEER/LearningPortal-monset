@@ -25,8 +25,8 @@ export default function QuizModal({ quiz, mode, open, session, onClose }) {
       {quiz && (
         <div className="card flex max-h-[calc(100dvh-32px)] flex-col shadow-pop">
           <header className="flex items-start gap-3 border-b border-line p-5 sm:p-6">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sun-100 text-navy">
-              <ClipboardCheck className="size-5 fill-sun" strokeWidth={1.75} aria-hidden="true" />
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sky-100 text-navy">
+              <ClipboardCheck className="size-5 fill-sky" strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1">
               <h2 id="quiz-title" className="text-lg leading-snug font-extrabold text-navy">{quiz.title}</h2>
@@ -83,7 +83,7 @@ function Take({ quiz, onClose }) {
           {status.best > score ? ` · Best: ${status.best}` : ''}
         </p>
         <div className="mt-6">
-          <button onClick={onClose} className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 wipe">
+          <button onClick={onClose} className="pressable rounded-pill bg-sun px-6 py-2.5 font-bold text-navy transition-colors duration-150 wipe">
             Back to course
           </button>
         </div>
@@ -136,7 +136,7 @@ function Take({ quiz, onClose }) {
         <button
           onClick={next}
           disabled={picked === undefined}
-          className="pressable rounded-pill bg-navy px-6 py-2.5 font-bold text-white transition-colors duration-150 wipe disabled:pointer-events-none disabled:opacity-40"
+          className="pressable rounded-pill bg-sun px-6 py-2.5 font-bold text-navy transition-colors duration-150 wipe disabled:pointer-events-none disabled:opacity-40"
         >
           {last ? 'Submit' : 'Next'}
         </button>

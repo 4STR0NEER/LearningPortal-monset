@@ -67,12 +67,12 @@ export default function TeacherCoursePage() {
                       onClick={() => setWeekId(w.id)}
                       aria-current={on ? 'true' : undefined}
                       className={`pressable flex w-full items-center justify-between gap-3 rounded-pill px-4 py-3 text-left transition-colors duration-150 ${
-                        on ? 'bg-navy font-extrabold text-white shadow-card' : 'wipe-soft bg-wash font-semibold text-navy'
+                        on ? 'bg-sun font-extrabold text-navy shadow-card' : 'wipe-soft bg-wash font-semibold text-navy'
                       }`}
                     >
                       Week {w.week_no}
                       {w.is_locked && (
-                        <span className={`inline-flex items-center gap-1 text-xs font-semibold ${on ? 'text-white' : 'text-muted'}`}>
+                        <span className={`inline-flex items-center gap-1 text-xs font-semibold ${on ? 'text-navy' : 'text-muted'}`}>
                           <Lock className="size-3.5" aria-hidden="true" /> Locked for students
                         </span>
                       )}
@@ -109,7 +109,7 @@ export default function TeacherCoursePage() {
                 </ContentRow>
               ))}
               {quizzesForWeek(week.id).map((q) => (
-                <ContentRow key={q.id} icon={ClipboardCheck} iconClass="fill-sun" tile="bg-sun-100 text-navy" title={q.title} onEdit={placeholder('Editing quizzes')}>
+                <ContentRow key={q.id} icon={ClipboardCheck} iconClass="fill-sky" tile="bg-sky-100 text-navy" title={q.title} onEdit={placeholder('Editing quizzes')}>
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
                     <span className={`${pill} border-line text-muted`}>Total: {q.total_points}</span>
                     <span className={`${pill} border-transparent bg-sky-200 text-navy`}>{questionsFor(q.id).length} questions</span>
